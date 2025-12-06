@@ -1,190 +1,175 @@
-<script setup lang="ts">
-interface Props {
-  className: string
-  gender: string
-  classList: string[]
-  availableCount: number
-}
-
-interface Emits {
-  (e: 'update:className', value: string): void
-  (e: 'update:gender', value: string): void
-}
-
-defineProps<Props>()
-const emit = defineEmits<Emits>()
-</script>
-
 <template>
   <div class="filter-panel">
-    <h2 class="panel-title">筛选条件</h2>
+    <h3 class="filter-title">🎯 筛选条件</h3>
     
-    <div class="filter-group">
-      <label class="filter-label">班级</label>
-      <select
-        :value="className"
-        @change="emit('update:className', ($event.target as HTMLSelectElement).value)"
-        class="filter-select"
-      >
-        <option v-for="cls in classList" :key="cls" :value="cls">
-          {{ cls }}
-        </option>
-      </select>
-    </div>
-
-    <div class="filter-group">
-      <label class="filter-label">性别</label>
-      <div class="gender-options">
-        <label class="radio-label">
-          <input
-            type="radio"
-            value="全部"
-            :checked="gender === '全部'"
-            @change="emit('update:gender', '全部')"
-          />
-          <span>全部</span>
-        </label>
-        <label class="radio-label">
-          <input
-            type="radio"
-            value="男"
-            :checked="gender === '男'"
-            @change="emit('update:gender', '男')"
-          />
-          <span>男生</span>
-        </label>
-        <label class="radio-label">
-          <input
-            type="radio"
-            value="女"
-            :checked="gender === '女'"
-            @change="emit('update:gender', '女')"
-          />
-          <span>女生</span>
-        </label>
+    <div class="filter-content">
+      <!-- 性别筛选 -->
+      <div class="filter-group">
+        <label for="gender-filter">性别</label>
+        <select 
+          id="gender-filter"
+          :value="modelGender" 
+          @change="updateGender"
+          :disabled="disabled"
+        >
+          <option value="">全部</option>
+          <option value="男">男</option>
+          <option value="女">女</option>
+        </select>
       </div>
+
+      <!-- 班级筛选 -->
+      <div class="filter-group">
+        <label for="class-filter">班级</label>
+        <select 
+          id="class-filter"
+          :value="modelClass" 
+          @change="updateClass"
+          :disabled="disabled"
+        >
+          <option value="">全部</option>
+          <option 
+            v-for="cls in classList" 
+            :key="cls" 
+            :value="cls"
+          >
+            {{ cls }}
+          </option>
+        </select>
+      </div>
+
+      <!-- 重置按钮 -->
+      <button 
+        class="reset-btn"
+        @click="$emit('reset')"
+        :disabled="disabled"
+      >
+        重置
+      </button>
     </div>
 
-    <div class="count-display">
-      <div class="count-number">{{ availableCount }}</div>
-      <div class="count-label">符合条件的学生</div>
+    <!-- 筛选结果提示 -->
+    <div v-if="filteredCount !== null" class="filter-result">
+      符合条件的学生：<strong>{{ filteredCount }}</strong> 人
     </div>
   </div>
 </template>
 
+<script setup lang="ts">
+const props = defineProps<{
+  modelGender: string;
+  modelClass: string;
+  classList: string[];
+  filteredCount?: number | null;
+  disabled?: boolean;
+}>();
+
+const emit = defineEmits<{
+  'update:modelGender': [value: string];
+  'update:modelClass': [value: string];
+  'reset': [];
+}>();
+
+function updateGender(event: Event) {
+  const target = event.target as HTMLSelectElement;
+  emit('update:modelGender', target.value);
+}
+
+function updateClass(event: Event) {
+  const target = event.target as HTMLSelectElement;
+  emit('update:modelClass', target.value);
+}
+</script>
+
 <style scoped>
 .filter-panel {
   background: white;
-  border-radius: 20px;
-  padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.panel-title {
-  font-size: 1.5rem;
-  font-weight: 700;
+.filter-title {
+  margin: 0 0 1rem 0;
   color: #333;
-  margin: 0 0 1.5rem 0;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #f0f0f0;
+  font-size: 1.2rem;
+}
+
+.filter-content {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
 }
 
 .filter-group {
-  margin-bottom: 1.5rem;
-}
-
-.filter-label {
-  display: block;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #666;
-  margin-bottom: 0.5rem;
-}
-
-.filter-select {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 10px;
-  background: white;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.filter-select:hover {
-  border-color: #667eea;
-}
-
-.filter-select:focus {
-  outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.gender-options {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-}
-
-.radio-label {
-  display: flex;
-  align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  flex: 1;
+  min-width: 150px;
 }
 
-.radio-label:hover {
-  border-color: #667eea;
-  background: rgba(102, 126, 234, 0.05);
+.filter-group label {
+  font-weight: 500;
+  color: #555;
+  font-size: 0.9rem;
 }
 
-.radio-label input[type="radio"] {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  accent-color: #667eea;
-}
-
-.radio-label span {
+.filter-group select {
+  padding: 0.6rem;
+  border: 2px solid #ddd;
+  border-radius: 6px;
   font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.filter-group select:hover:not(:disabled) {
+  border-color: #667eea;
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.filter-group select:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.reset-btn {
+  padding: 0.6rem 1.5rem;
+  background: #f5f5f5;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.reset-btn:hover:not(:disabled) {
+  background: #e0e0e0;
+  border-color: #999;
+}
+
+.reset-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.filter-result {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  background: #f0f7ff;
+  border-left: 4px solid #667eea;
+  border-radius: 4px;
   color: #333;
 }
 
-.radio-label:has(input:checked) {
-  border-color: #667eea;
-  background: rgba(102, 126, 234, 0.1);
-}
-
-.count-display {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 16px;
-  text-align: center;
-  color: white;
-}
-
-.count-number {
-  font-size: 3rem;
-  font-weight: 800;
-  line-height: 1;
-  margin-bottom: 0.5rem;
-}
-
-.count-label {
-  font-size: 0.9rem;
-  opacity: 0.9;
-}
-
-@media (max-width: 1200px) {
-  .filter-panel {
-    max-width: 600px;
-  }
+.filter-result strong {
+  color: #667eea;
+  font-size: 1.1rem;
 }
 </style>

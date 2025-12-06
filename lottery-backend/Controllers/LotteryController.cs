@@ -1,70 +1,114 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LotteryBackend.Data;
 using LotteryBackend.Models;
+using LotteryBackend.Services;
 
-namespace LotteryBackend.Controllers
+namespace LotteryBackend.Controllers;
+
+/// <summary>
+/// 抽签控制器
+/// </summary>
+[ApiController]
+[Route("api/[controller]")]
+[Produces("application/json")]
+public class LotteryController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class LotteryController : ControllerBase
+    private readonly IStudentService _studentService;
+    private readonly ILogger<LotteryController> _logger;
+
+    public LotteryController(IStudentService studentService, ILogger<LotteryController> logger)
     {
-        private readonly StudentContext _context;
+        _studentService = studentService;
+        _logger = logger;
+    }
 
-        public LotteryController(StudentContext context)
+    /// <summary>
+    /// 获取所有学生列表
+    /// </summary>
+    /// <returns>学生列表</returns>
+    /// <response code="200">返回学生列表</response>
+    [HttpGet("students")]
+    [ProducesResponseType(typeof(IEnumerable<Student>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
+    {
+        _logger.LogInformation("API调用: 获取所有学生");
+        var students = await _studentService.GetAllStudentsAsync();
+        return Ok(students);
+    }
+
+    /// <summary>
+    /// 根据ID获取学生信息
+    /// </summary>
+    /// <param name="id">学生ID</param>
+    /// <returns>学生信息</returns>
+    /// <response code="200">返回学生信息</response>
+    /// <response code="404">学生不存在</response>
+    [HttpGet("students/{id}")]
+    [ProducesResponseType(typeof(Student), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<Student>> GetStudent(int id)
+    {
+        _logger.LogInformation("API调用: 获取学生ID={Id}", id);
+        var student = await _studentService.GetStudentByIdAsync(id);
+        
+        if (student == null)
         {
-            _context = context;
+            _logger.LogWarning("学生不存在: ID={Id}", id);
+            return NotFound(new { message = "学生不存在" });
         }
+        
+        return Ok(student);
+    }
 
-        [HttpGet("students")]
-        public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
+    /// <summary>
+    /// 随机抽取学生
+    /// </summary>
+    /// <param name="gender">性别筛选（可选）</param>
+    /// <param name="className">班级筛选（可选）</param>
+    /// <returns>抽中的学生</returns>
+    /// <response code="200">返回抽中的学生</response>
+    /// <response code="404">没有符合条件的学生</response>
+    [HttpGet("draw")]
+    [ProducesResponseType(typeof(Student), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<Student>> DrawStudent([FromQuery] string? gender = null, [FromQuery] string? className = null)
+    {
+        _logger.LogInformation("API调用: 抽签 - 性别={Gender}, 班级={Class}", gender ?? "全部", className ?? "全部");
+        var student = await _studentService.DrawStudentAsync(gender, className);
+        
+        if (student == null)
         {
-            return await _context.Students.ToListAsync();
+            _logger.LogWarning("没有符合条件的学生 - 性别={Gender}, 班级={Class}", gender, className);
+            return NotFound(new { message = "没有符合条件的学生" });
         }
+        
+        return Ok(student);
+    }
 
-        [HttpGet("students/{id}")]
-        public async Task<ActionResult<Student>> GetStudent(int id)
-        {
-            var student = await _context.Students.FindAsync(id);
-            if (student == null) return NotFound();
-            return student;
-        }
+    /// <summary>
+    /// 获取统计信息
+    /// </summary>
+    /// <returns>统计信息（总数、性别分布、班级分布）</returns>
+    /// <response code="200">返回统计信息</response>
+    [HttpGet("stats")]
+    [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+    public async Task<ActionResult<object>> GetStatistics()
+    {
+        _logger.LogInformation("API调用: 获取统计信息");
+        var stats = await _studentService.GetStatisticsAsync();
+        return Ok(stats);
+    }
 
-        [HttpGet("draw")]
-        public async Task<ActionResult<Student>> DrawStudent([FromQuery] string? gender = null, [FromQuery] string? className = null)
-        {
-            var query = _context.Students.AsQueryable();
-            
-            if (!string.IsNullOrEmpty(gender))
-                query = query.Where(s => s.Gender == gender);
-            
-            if (!string.IsNullOrEmpty(className))
-                query = query.Where(s => s.Class == className);
-
-            var count = await query.CountAsync();
-            if (count == 0) return NotFound("没有符合条件的学生");
-
-            var random = new Random();
-            var skip = random.Next(count);
-            var student = await query.Skip(skip).FirstOrDefaultAsync();
-
-            return student!;
-        }
-
-        [HttpGet("stats")]
-        public async Task<ActionResult<object>> GetStats()
-        {
-            var total = await _context.Students.CountAsync();
-            var genderStats = await _context.Students
-                .GroupBy(s => s.Gender)
-                .Select(g => new { Gender = g.Key, Count = g.Count() })
-                .ToListAsync();
-            var classStats = await _context.Students
-                .GroupBy(s => s.Class)
-                .Select(g => new { Class = g.Key, Count = g.Count() })
-                .ToListAsync();
-
-            return new { Total = total, GenderStats = genderStats, ClassStats = classStats };
-        }
+    /// <summary>
+    /// 获取所有班级列表
+    /// </summary>
+    /// <returns>班级列表</returns>
+    /// <response code="200">返回班级列表</response>
+    [HttpGet("classes")]
+    [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<IEnumerable<string>>> GetClasses()
+    {
+        _logger.LogInformation("API调用: 获取班级列表");
+        var classes = await _studentService.GetClassListAsync();
+        return Ok(classes);
     }
 }

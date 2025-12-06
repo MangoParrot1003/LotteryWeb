@@ -1,122 +1,164 @@
-import { ref, computed } from 'vue'
-import type { Student, FilterOptions, LotteryHistory } from '../types/student'
-import studentsData from '../data/students.json'
+import { ref, computed } from 'vue';
+import type { Student, Statistics } from '../types/student';
+import * as lotteryApi from '../api/lottery';
 
+/**
+ * 抽签功能组合式函数
+ */
 export function useLottery() {
-    const allStudents = ref<Student[]>(studentsData as Student[])
-    const filterOptions = ref<FilterOptions>({
-        className: '全部',
-        gender: '全部'
-    })
-    const history = ref<LotteryHistory[]>([])
-    const currentStudent = ref<Student | null>(null)
-    const isAnimating = ref(false)
+  // 状态
+  const students = ref<Student[]>([]);
+  const selectedStudent = ref<Student | null>(null);
+  const statistics = ref<Statistics | null>(null);
+  const classList = ref<string[]>([]);
+  const isDrawing = ref(false);
+  const isLoading = ref(false);
+  const error = ref<string | null>(null);
 
-    // 获取所有班级列表
-    const classList = computed(() => {
-        const classes = new Set(allStudents.value.map(s => s.class))
-        return ['全部', ...Array.from(classes).sort()]
-    })
+  // 筛选条件
+  const filterGender = ref<string>('');
+  const filterClass = ref<string>('');
 
-    // 过滤后的学生列表（排除已抽取的）
-    const availableStudents = computed(() => {
-        const drawnIds = new Set(history.value.map(h => h.student.id))
+  // 计算属性
+  const filteredStudents = computed(() => {
+    let result = students.value;
+    
+    if (filterGender.value) {
+      result = result.filter(s => s.gender === filterGender.value);
+    }
+    
+    if (filterClass.value) {
+      result = result.filter(s => s.class === filterClass.value);
+    }
+    
+    return result;
+  });
 
-        return allStudents.value.filter(student => {
-            if (drawnIds.has(student.id)) return false
+  const filteredCount = computed(() => filteredStudents.value.length);
 
-            const classMatch = filterOptions.value.className === '全部' ||
-                student.class === filterOptions.value.className
-            const genderMatch = filterOptions.value.gender === '全部' ||
-                student.gender === filterOptions.value.gender
+  /**
+   * 加载所有学生
+   */
+  async function loadStudents() {
+    try {
+      isLoading.value = true;
+      error.value = null;
+      students.value = await lotteryApi.getAllStudents();
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : '加载学生列表失败';
+      console.error('加载学生失败:', e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
 
-            return classMatch && genderMatch
-        })
-    })
+  /**
+   * 加载统计信息
+   */
+  async function loadStatistics() {
+    try {
+      error.value = null;
+      statistics.value = await lotteryApi.getStatistics();
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : '加载统计信息失败';
+      console.error('加载统计失败:', e);
+    }
+  }
 
-    // 随机抽取学生
-    const drawStudent = () => {
-        if (availableStudents.value.length === 0 || isAnimating.value) return
+  /**
+   * 加载班级列表
+   */
+  async function loadClassList() {
+    try {
+      error.value = null;
+      classList.value = await lotteryApi.getClassList();
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : '加载班级列表失败';
+      console.error('加载班级列表失败:', e);
+    }
+  }
 
-        isAnimating.value = true
-        currentStudent.value = null
+  /**
+   * 执行抽签
+   */
+  async function performDraw() {
+    if (isDrawing.value) return;
+    
+    try {
+      isDrawing.value = true;
+      error.value = null;
+      selectedStudent.value = null;
 
-        // 预先确定最终要抽取的学生
-        const finalIndex = Math.floor(Math.random() * availableStudents.value.length)
-        const selectedStudent = availableStudents.value[finalIndex]
+      // 动画效果 - 快速切换显示
+      const animationDuration = 2000; // 2秒动画
+      const interval = 100; // 每100ms切换一次
+      const iterations = animationDuration / interval;
 
-        // 类型安全检查
-        if (!selectedStudent) {
-            isAnimating.value = false
-            return
+      // 动画过程
+      for (let i = 0; i < iterations; i++) {
+        if (filteredStudents.value.length > 0) {
+          const randomIndex = Math.floor(Math.random() * filteredStudents.value.length);
+          const student = filteredStudents.value[randomIndex];
+          if (student) {
+            selectedStudent.value = student;
+          }
+          await new Promise(resolve => setTimeout(resolve, interval));
         }
+      }
 
-        // 动画效果：快速切换学生
-        let count = 0
-        const maxCount = 30
-        const interval = setInterval(() => {
-            count++
-
-            if (count >= maxCount) {
-                // 动画最后一帧直接显示最终选中的学生
-                clearInterval(interval)
-                currentStudent.value = selectedStudent
-
-                // 添加到历史记录
-                history.value.unshift({
-                    student: selectedStudent,
-                    timestamp: Date.now()
-                })
-
-                isAnimating.value = false
-            } else {
-                // 动画过程中随机显示学生
-                const randomIndex = Math.floor(Math.random() * availableStudents.value.length)
-                currentStudent.value = availableStudents.value[randomIndex] || null
-            }
-        }, 50)
+      // 真正的抽签
+      const result = await lotteryApi.drawStudent(
+        filterGender.value || undefined,
+        filterClass.value || undefined
+      );
+      
+      selectedStudent.value = result;
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : '抽签失败';
+      console.error('抽签失败:', e);
+      selectedStudent.value = null;
+    } finally {
+      isDrawing.value = false;
     }
+  }
 
-    // 清空历史记录
-    const clearHistory = () => {
-        history.value = []
-        currentStudent.value = null
-    }
+  /**
+   * 重置筛选条件
+   */
+  function resetFilters() {
+    filterGender.value = '';
+    filterClass.value = '';
+  }
 
-    // 统计信息
-    const stats = computed(() => {
-        const total = allStudents.value.length
-        const available = availableStudents.value.length
-        const drawn = history.value.length
+  /**
+   * 清除选中的学生
+   */
+  function clearSelection() {
+    selectedStudent.value = null;
+  }
 
-        const genderStats = allStudents.value.reduce((acc, s) => {
-            acc[s.gender] = (acc[s.gender] || 0) + 1
-            return acc
-        }, {} as Record<string, number>)
-
-        const classStats = allStudents.value.reduce((acc, s) => {
-            acc[s.class] = (acc[s.class] || 0) + 1
-            return acc
-        }, {} as Record<string, number>)
-
-        return {
-            total,
-            available,
-            drawn,
-            genderStats,
-            classStats
-        }
-    })
-
-    return {
-        filterOptions,
-        classList,
-        availableStudents,
-        currentStudent,
-        isAnimating,
-        history,
-        stats,
-        drawStudent,
-        clearHistory
-    }
+  return {
+    // 状态
+    students,
+    selectedStudent,
+    statistics,
+    classList,
+    isDrawing,
+    isLoading,
+    error,
+    
+    // 筛选
+    filterGender,
+    filterClass,
+    filteredStudents,
+    filteredCount,
+    
+    // 方法
+    loadStudents,
+    loadStatistics,
+    loadClassList,
+    performDraw,
+    resetFilters,
+    clearSelection
+  };
 }
