@@ -36,4 +36,24 @@ public interface IStudentService
     /// 获取所有班级列表
     /// </summary>
     Task<IEnumerable<string>> GetClassListAsync();
+    
+    /// <summary>
+    /// 保存抽签历史记录
+    /// </summary>
+    Task SaveDrawHistoryAsync(Student student, string? sessionId = null, bool isBatch = false, string? batchId = null);
+    
+    /// <summary>
+    /// 获取抽签历史记录
+    /// </summary>
+    Task<IEnumerable<DrawHistory>> GetDrawHistoryAsync(string? sessionId = null, int limit = 100);
+    
+    /// <summary>
+    /// 清空抽签历史记录
+    /// </summary>
+    Task ClearDrawHistoryAsync(string? sessionId = null);
+    
+    /// <summary>
+    /// 删除单条历史记录
+    /// </summary>
+    Task DeleteDrawHistoryAsync(int historyId);
 }

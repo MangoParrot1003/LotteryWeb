@@ -18,26 +18,41 @@
       </div>
 
       <div v-else class="history-list">
-        <div 
-          v-for="(student, index) in history" 
-          :key="student.id"
-          class="history-item"
-        >
-          <div class="item-number">{{ history.length - index }}</div>
-          <div class="item-info">
-            <div class="item-name">{{ student.name }}</div>
-            <div class="item-details">
-              {{ student.studentId }} | {{ student.class }}
+        <template v-for="(record, index) in history" :key="record.id">
+          <!-- 批次分隔线 -->
+          <div 
+            v-if="index > 0 && shouldShowBatchSeparator(record, history[index - 1])"
+            class="batch-separator"
+          >
+            <span class="separator-line"></span>
+          </div>
+          
+          <!-- 历史记录项 -->
+          <div class="history-item" :class="{ 'is-batch': record.isBatch }">
+            <div class="item-header">
+              <div class="item-number">{{ history.length - index }}</div>
+              <div class="item-time">{{ formatTime(record.drawTime) }}</div>
+            </div>
+            <div class="item-body">
+              <div class="item-info">
+                <div class="item-name">
+                  {{ record.studentName }}
+                  <span v-if="record.isBatch" class="batch-badge">批量</span>
+                </div>
+                <div class="item-details">
+                  {{ record.studentNumber }} | {{ record.class }}
+                </div>
+              </div>
+              <button 
+                @click="$emit('remove', record.id)" 
+                class="remove-btn"
+                title="移除"
+              >
+                ×
+              </button>
             </div>
           </div>
-          <button 
-            @click="$emit('remove', student.id)" 
-            class="remove-btn"
-            title="移除"
-          >
-            ×
-          </button>
-        </div>
+        </template>
       </div>
     </div>
 
@@ -58,10 +73,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Student } from '../types/student';
+import type { DrawHistory } from '../types/student';
 
 defineProps<{
-  history: Student[];
+  history: DrawHistory[];
   excludeDrawn: boolean;
 }>();
 
@@ -70,6 +85,81 @@ defineEmits<{
   'remove': [id: number];
   'update:excludeDrawn': [value: boolean];
 }>();
+
+// 格式化时间
+function formatTime(dateStr: string): string {
+  // 处理后端返回的时间格式（可能包含微秒）
+  const cleanDateStr = dateStr.split('.')[0]; // 移除微秒部分
+  const date = new Date(cleanDateStr);
+  
+  // 检查日期是否有效
+  if (isNaN(date.getTime())) {
+    return dateStr; // 如果解析失败，返回原始字符串
+  }
+  
+  const now = new Date();
+  const diff = now.getTime() - date.getTime();
+  
+  // 小于1分钟
+  if (diff < 60000 && diff >= 0) {
+    return '刚刚';
+  }
+  
+  // 小于1小时
+  if (diff < 3600000 && diff >= 0) {
+    const minutes = Math.floor(diff / 60000);
+    return `${minutes}分钟前`;
+  }
+  
+  // 小于24小时
+  if (diff < 86400000 && diff >= 0) {
+    const hours = Math.floor(diff / 3600000);
+    return `${hours}小时前`;
+  }
+  
+  // 显示具体时间
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  const hour = date.getHours().toString().padStart(2, '0');
+  const minute = date.getMinutes().toString().padStart(2, '0');
+  const second = date.getSeconds().toString().padStart(2, '0');
+  
+  // 判断是否是今天
+  const isToday = date.toDateString() === now.toDateString();
+  
+  if (isToday) {
+    return `今天 ${hour}:${minute}:${second}`;
+  }
+  
+  // 判断是否是今年
+  const isThisYear = date.getFullYear() === now.getFullYear();
+  
+  if (isThisYear) {
+    return `${month}-${day} ${hour}:${minute}:${second}`;
+  }
+  
+  return `${date.getFullYear()}-${month}-${day} ${hour}:${minute}:${second}`;
+}
+
+// 判断是否显示批次分隔线
+function shouldShowBatchSeparator(current: DrawHistory, previous: DrawHistory): boolean {
+  // 如果当前是批量抽签，且与上一条的 batchId 不同
+  if (current.isBatch && current.batchId !== previous.batchId) {
+    return true;
+  }
+  
+  // 如果上一条是批量抽签，当前不是
+  if (previous.isBatch && !current.isBatch) {
+    return true;
+  }
+  
+  // 如果都不是批量抽签
+  if (!current.isBatch && !previous.isBatch) {
+    return true;
+  }
+  
+  return false;
+}
 </script>
 
 <style scoped>
@@ -130,14 +220,28 @@ defineEmits<{
   gap: 0.5rem;
 }
 
-.history-item {
+.batch-separator {
+  margin: 0.8rem 0;
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+}
+
+.separator-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ddd, transparent);
+}
+
+.history-item {
   padding: 0.8rem;
   background: #f8f9fa;
   border-radius: 8px;
   transition: all 0.2s;
+}
+
+.history-item.is-batch {
+  background: #f0f4ff;
+  border-left: 3px solid #667eea;
 }
 
 .history-item:hover {
@@ -145,18 +249,40 @@ defineEmits<{
   transform: translateX(2px);
 }
 
+.history-item.is-batch:hover {
+  background: #e6edff;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
 .item-number {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: bold;
   flex-shrink: 0;
+}
+
+.item-time {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.item-body {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
 }
 
 .item-info {
@@ -168,6 +294,19 @@ defineEmits<{
   font-weight: 600;
   color: #333;
   margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.batch-badge {
+  display: inline-block;
+  padding: 0.1rem 0.4rem;
+  background: #667eea;
+  color: white;
+  font-size: 0.7rem;
+  border-radius: 4px;
+  font-weight: normal;
 }
 
 .item-details {

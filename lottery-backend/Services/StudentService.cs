@@ -1,6 +1,5 @@
-using Dapper;
 using LotteryBackend.Models;
-using Microsoft.Data.Sqlite;
+using LotteryBackend.Repositories;
 
 namespace LotteryBackend.Services;
 
@@ -9,22 +8,18 @@ namespace LotteryBackend.Services;
 /// </summary>
 public class StudentService : IStudentService
 {
-    private readonly string _connectionString;
+    private readonly IStudentRepository _studentRepository;
+    private readonly IDrawHistoryRepository _historyRepository;
     private readonly ILogger<StudentService> _logger;
 
-    public StudentService(IConfiguration configuration, ILogger<StudentService> logger)
+    public StudentService(
+        IStudentRepository studentRepository,
+        IDrawHistoryRepository historyRepository,
+        ILogger<StudentService> logger)
     {
-        _connectionString = configuration.GetConnectionString("DefaultConnection") 
-            ?? throw new InvalidOperationException("数据库连接字符串未配置");
+        _studentRepository = studentRepository;
+        _historyRepository = historyRepository;
         _logger = logger;
-    }
-
-    /// <summary>
-    /// 获取数据库连接
-    /// </summary>
-    private SqliteConnection GetConnection()
-    {
-        return new SqliteConnection(_connectionString);
     }
 
     /// <summary>
@@ -32,15 +27,8 @@ public class StudentService : IStudentService
     /// </summary>
     public async Task<IEnumerable<Student>> GetAllStudentsAsync()
     {
-        using var connection = GetConnection();
-        const string sql = @"
-            SELECT id as Id, serial_number as SerialNumber, student_id as StudentId, 
-                   name as Name, gender as Gender, major as Major, class as Class
-            FROM students
-            ORDER BY id";
-        
         _logger.LogInformation("查询所有学生");
-        return await connection.QueryAsync<Student>(sql);
+        return await _studentRepository.GetAllAsync();
     }
 
     /// <summary>
@@ -48,15 +36,8 @@ public class StudentService : IStudentService
     /// </summary>
     public async Task<Student?> GetStudentByIdAsync(int id)
     {
-        using var connection = GetConnection();
-        const string sql = @"
-            SELECT id as Id, serial_number as SerialNumber, student_id as StudentId, 
-                   name as Name, gender as Gender, major as Major, class as Class
-            FROM students
-            WHERE id = @Id";
-        
         _logger.LogInformation("查询学生ID: {Id}", id);
-        return await connection.QueryFirstOrDefaultAsync<Student>(sql, new { Id = id });
+        return await _studentRepository.GetByIdAsync(id);
     }
 
     /// <summary>
@@ -64,33 +45,8 @@ public class StudentService : IStudentService
     /// </summary>
     public async Task<Student?> DrawStudentAsync(string? gender = null, string? className = null)
     {
-        using var connection = GetConnection();
-        
-        // 构建SQL查询
-        var sql = @"
-            SELECT id as Id, serial_number as SerialNumber, student_id as StudentId, 
-                   name as Name, gender as Gender, major as Major, class as Class
-            FROM students
-            WHERE 1=1";
-        
-        var parameters = new DynamicParameters();
-        
-        if (!string.IsNullOrEmpty(gender))
-        {
-            sql += " AND gender = @Gender";
-            parameters.Add("Gender", gender);
-        }
-        
-        if (!string.IsNullOrEmpty(className))
-        {
-            sql += " AND class = @Class";
-            parameters.Add("Class", className);
-        }
-        
-        sql += " ORDER BY RANDOM() LIMIT 1";
-        
         _logger.LogInformation("抽签 - 性别: {Gender}, 班级: {Class}", gender ?? "全部", className ?? "全部");
-        return await connection.QueryFirstOrDefaultAsync<Student>(sql, parameters);
+        return await _studentRepository.GetRandomStudentAsync(gender, className);
     }
 
     /// <summary>
@@ -98,36 +54,10 @@ public class StudentService : IStudentService
     /// </summary>
     public async Task<IEnumerable<Student>> DrawMultipleStudentsAsync(int count, string? gender = null, string? className = null, bool excludeDuplicates = true)
     {
-        using var connection = GetConnection();
-        
-        // 构建SQL查询
-        var sql = @"
-            SELECT id as Id, serial_number as SerialNumber, student_id as StudentId, 
-                   name as Name, gender as Gender, major as Major, class as Class
-            FROM students
-            WHERE 1=1";
-        
-        var parameters = new DynamicParameters();
-        
-        if (!string.IsNullOrEmpty(gender))
-        {
-            sql += " AND gender = @Gender";
-            parameters.Add("Gender", gender);
-        }
-        
-        if (!string.IsNullOrEmpty(className))
-        {
-            sql += " AND class = @Class";
-            parameters.Add("Class", className);
-        }
-        
-        sql += " ORDER BY RANDOM() LIMIT @Count";
-        parameters.Add("Count", count);
-        
         _logger.LogInformation("批量抽签 - 数量: {Count}, 性别: {Gender}, 班级: {Class}", 
             count, gender ?? "全部", className ?? "全部");
         
-        return await connection.QueryAsync<Student>(sql, parameters);
+        return await _studentRepository.GetRandomStudentsAsync(count, gender, className);
     }
 
     /// <summary>
@@ -135,37 +65,8 @@ public class StudentService : IStudentService
     /// </summary>
     public async Task<object> GetStatisticsAsync()
     {
-        using var connection = GetConnection();
-        
-        // 获取总数
-        const string totalSql = "SELECT COUNT(*) FROM students";
-        var total = await connection.ExecuteScalarAsync<int>(totalSql);
-        
-        // 获取性别统计
-        const string genderSql = @"
-            SELECT gender as Gender, COUNT(*) as Count
-            FROM students
-            WHERE gender IS NOT NULL
-            GROUP BY gender";
-        var genderStats = await connection.QueryAsync<dynamic>(genderSql);
-        
-        // 获取班级统计
-        const string classSql = @"
-            SELECT class as Class, COUNT(*) as Count
-            FROM students
-            WHERE class IS NOT NULL
-            GROUP BY class
-            ORDER BY class";
-        var classStats = await connection.QueryAsync<dynamic>(classSql);
-        
-        _logger.LogInformation("获取统计信息 - 总数: {Total}", total);
-        
-        return new
-        {
-            Total = total,
-            GenderStats = genderStats,
-            ClassStats = classStats
-        };
+        _logger.LogInformation("获取统计信息");
+        return await _studentRepository.GetStatisticsAsync();
     }
 
     /// <summary>
@@ -173,14 +74,74 @@ public class StudentService : IStudentService
     /// </summary>
     public async Task<IEnumerable<string>> GetClassListAsync()
     {
-        using var connection = GetConnection();
-        const string sql = @"
-            SELECT DISTINCT class
-            FROM students
-            WHERE class IS NOT NULL
-            ORDER BY class";
-        
         _logger.LogInformation("获取班级列表");
-        return await connection.QueryAsync<string>(sql);
+        return await _studentRepository.GetClassListAsync();
+    }
+
+    /// <summary>
+    /// 保存抽签历史记录
+    /// </summary>
+    public async Task SaveDrawHistoryAsync(Student student, string? sessionId = null, bool isBatch = false, string? batchId = null)
+    {
+        var history = new DrawHistory
+        {
+            StudentId = student.Id,
+            StudentName = student.Name,
+            StudentNumber = student.StudentId,
+            Class = student.Class,
+            Gender = student.Gender,
+            DrawTime = DateTime.Now,
+            SessionId = sessionId,
+            IsBatch = isBatch,
+            BatchId = batchId
+        };
+        
+        await _historyRepository.AddAsync(history);
+        await _historyRepository.SaveChangesAsync();
+        
+        _logger.LogInformation("保存抽签历史 - 学生: {Name}, 会话: {SessionId}", student.Name, sessionId ?? "默认");
+    }
+
+    /// <summary>
+    /// 获取抽签历史记录
+    /// </summary>
+    public async Task<IEnumerable<DrawHistory>> GetDrawHistoryAsync(string? sessionId = null, int limit = 100)
+    {
+        _logger.LogInformation("获取抽签历史 - 会话: {SessionId}, 限制: {Limit}", sessionId ?? "全部", limit);
+        
+        if (!string.IsNullOrEmpty(sessionId))
+        {
+            return await _historyRepository.GetBySessionIdAsync(sessionId, limit);
+        }
+        
+        return await _historyRepository.GetRecentHistoryAsync(limit);
+    }
+
+    /// <summary>
+    /// 清空抽签历史记录
+    /// </summary>
+    public async Task ClearDrawHistoryAsync(string? sessionId = null)
+    {
+        if (!string.IsNullOrEmpty(sessionId))
+        {
+            await _historyRepository.ClearBySessionIdAsync(sessionId);
+            _logger.LogInformation("清空抽签历史 - 会话: {SessionId}", sessionId);
+        }
+        else
+        {
+            await _historyRepository.ClearAllAsync();
+            _logger.LogInformation("清空所有抽签历史");
+        }
+    }
+
+    /// <summary>
+    /// 删除单条历史记录
+    /// </summary>
+    public async Task DeleteDrawHistoryAsync(int historyId)
+    {
+        await _historyRepository.DeleteAsync(historyId);
+        await _historyRepository.SaveChangesAsync();
+        
+        _logger.LogInformation("删除抽签历史记录 - ID: {Id}", historyId);
     }
 }

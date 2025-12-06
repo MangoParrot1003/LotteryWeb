@@ -37,6 +37,22 @@ export interface ClassStat {
 }
 
 /**
+ * 抽签历史记录接口
+ */
+export interface DrawHistory {
+  id: number;
+  studentId: number;
+  studentName: string;
+  studentNumber: string;
+  class?: string;
+  gender?: string;
+  drawTime: string;
+  sessionId?: string;
+  isBatch: boolean;
+  batchId?: string;
+}
+
+/**
  * API 响应接口
  */
 export interface ApiResponse<T> {

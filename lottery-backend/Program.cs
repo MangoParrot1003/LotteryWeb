@@ -1,11 +1,22 @@
+using Microsoft.EntityFrameworkCore;
+using LotteryBackend.Data;
 using LotteryBackend.Services;
+using LotteryBackend.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // 添加服务到容器
 builder.Services.AddControllers();
 
-// 注册学生服务
+// 配置数据库上下文
+builder.Services.AddDbContext<StudentContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// 注册仓储
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IDrawHistoryRepository, DrawHistoryRepository>();
+
+// 注册服务
 builder.Services.AddScoped<IStudentService, StudentService>();
 
 // 配置 Swagger/OpenAPI

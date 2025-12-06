@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue';
-import type { Student, Statistics } from '../types/student';
+import type { Student, Statistics, DrawHistory } from '../types/student';
 import * as lotteryApi from '../api/lottery';
 
 /**
@@ -21,7 +21,7 @@ export function useLottery() {
   const filterClass = ref<string>('');
 
   // 抽签历史
-  const drawHistory = ref<Student[]>([]);
+  const drawHistory = ref<DrawHistory[]>([]);
   const excludeDrawn = ref(false); // 是否排除已抽取的学生
 
   // 批量抽签设置
@@ -41,7 +41,7 @@ export function useLottery() {
 
     // 排除已抽取的学生
     if (excludeDrawn.value && drawHistory.value.length > 0) {
-      const drawnIds = new Set(drawHistory.value.map(s => s.id));
+      const drawnIds = new Set(drawHistory.value.map(h => h.studentId));
       result = result.filter(s => !drawnIds.has(s.id));
     }
     
@@ -93,6 +93,20 @@ export function useLottery() {
   }
 
   /**
+   * 加载抽签历史
+   */
+  async function loadHistory() {
+    try {
+      error.value = null;
+      const history = await lotteryApi.getDrawHistory();
+      drawHistory.value = history;
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : '加载历史记录失败';
+      console.error('加载历史记录失败:', e);
+    }
+  }
+
+  /**
    * 执行抽签
    */
   async function performDraw() {
@@ -129,10 +143,8 @@ export function useLottery() {
       
       selectedStudent.value = result;
       
-      // 添加到历史记录
-      if (result && !drawHistory.value.find(s => s.id === result.id)) {
-        drawHistory.value.push(result);
-      }
+      // 重新加载历史记录
+      await loadHistory();
     } catch (e) {
       error.value = e instanceof Error ? e.message : '抽签失败';
       console.error('抽签失败:', e);
@@ -180,12 +192,8 @@ export function useLottery() {
       selectedStudents.value = results;
       selectedStudent.value = null;
       
-      // 添加到历史记录
-      results.forEach(student => {
-        if (!drawHistory.value.find(s => s.id === student.id)) {
-          drawHistory.value.push(student);
-        }
-      });
+      // 重新加载历史记录
+      await loadHistory();
     } catch (e) {
       error.value = e instanceof Error ? e.message : '批量抽签失败';
       console.error('批量抽签失败:', e);
@@ -214,15 +222,30 @@ export function useLottery() {
   /**
    * 清空抽签历史
    */
-  function clearHistory() {
-    drawHistory.value = [];
+  async function clearHistory() {
+    try {
+      error.value = null;
+      await lotteryApi.clearDrawHistory();
+      drawHistory.value = [];
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : '清空历史记录失败';
+      console.error('清空历史记录失败:', e);
+    }
   }
 
   /**
    * 从历史中移除指定学生
    */
-  function removeFromHistory(studentId: number) {
-    drawHistory.value = drawHistory.value.filter(s => s.id !== studentId);
+  async function removeFromHistory(historyId: number) {
+    try {
+      error.value = null;
+      await lotteryApi.deleteDrawHistory(historyId);
+      // 重新加载历史记录
+      await loadHistory();
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : '删除历史记录失败';
+      console.error('删除历史记录失败:', e);
+    }
   }
 
   return {
@@ -253,6 +276,7 @@ export function useLottery() {
     loadStudents,
     loadStatistics,
     loadClassList,
+    loadHistory,
     performDraw,
     performBatchDraw,
     resetFilters,

@@ -1,4 +1,4 @@
-import type { Student, Statistics } from '../types/student';
+import type { Student, Statistics, DrawHistory } from '../types/student';
 
 // API 基础地址 - 自动适配本机和局域网访问
 // 如果通过 IP 访问前端，后端也使用相同的 IP
@@ -95,4 +95,49 @@ export async function drawMultipleStudents(
   }
   
   return response.json();
+}
+
+/**
+ * 获取抽签历史记录
+ */
+export async function getDrawHistory(sessionId?: string, limit: number = 100): Promise<DrawHistory[]> {
+  const params = new URLSearchParams();
+  if (sessionId) params.append('sessionId', sessionId);
+  params.append('limit', limit.toString());
+  
+  const url = `${API_BASE}/history?${params.toString()}`;
+  const response = await fetch(url);
+  
+  if (!response.ok) {
+    throw new Error('获取历史记录失败');
+  }
+  
+  return response.json();
+}
+
+/**
+ * 清空抽签历史记录
+ */
+export async function clearDrawHistory(sessionId?: string): Promise<void> {
+  const params = new URLSearchParams();
+  if (sessionId) params.append('sessionId', sessionId);
+  
+  const url = `${API_BASE}/history?${params.toString()}`;
+  const response = await fetch(url, { method: 'DELETE' });
+  
+  if (!response.ok) {
+    throw new Error('清空历史记录失败');
+  }
+}
+
+/**
+ * 删除单条历史记录
+ */
+export async function deleteDrawHistory(historyId: number): Promise<void> {
+  const url = `${API_BASE}/history/${historyId}`;
+  const response = await fetch(url, { method: 'DELETE' });
+  
+  if (!response.ok) {
+    throw new Error('删除历史记录失败');
+  }
 }

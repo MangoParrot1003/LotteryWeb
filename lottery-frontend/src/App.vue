@@ -2,7 +2,7 @@
   <div class="app-container">
     <!-- 头部 -->
     <header class="app-header">
-      <h1>🎲 学生抽签系统</h1>
+      <h1>🎲 学生抽签系统 v1.0</h1>
       <p class="subtitle">公平 · 随机 · 高效</p>
     </header>
 
@@ -15,7 +15,7 @@
     <!-- 主要内容 -->
     <main class="app-main">
       <!-- 左侧：统计和筛选 -->
-      <aside class="sidebar">
+      <aside class="sidebar left-sidebar">
         <StatsCard :statistics="statistics" />
         <FilterPanel
           v-model:model-gender="filterGender"
@@ -25,16 +25,9 @@
           :disabled="isDrawing"
           @reset="resetFilters"
         />
-        <HistoryPanel
-          :history="drawHistory"
-          :exclude-drawn="excludeDrawn"
-          @clear="clearHistory"
-          @remove="removeFromHistory"
-          @update:exclude-drawn="excludeDrawn = $event"
-        />
       </aside>
 
-      <!-- 右侧：抽签区域 -->
+      <!-- 中间：抽签区域 -->
       <section class="main-content">
         <LotteryBox
           :student="selectedStudent"
@@ -47,6 +40,17 @@
           @update:draw-count="drawCount = $event"
         />
       </section>
+
+      <!-- 右侧：历史记录 -->
+      <aside class="sidebar right-sidebar">
+        <HistoryPanel
+          :history="drawHistory"
+          :exclude-drawn="excludeDrawn"
+          @clear="clearHistory"
+          @remove="removeFromHistory"
+          @update:exclude-drawn="excludeDrawn = $event"
+        />
+      </aside>
     </main>
 
     <!-- 底部 -->
@@ -81,6 +85,7 @@ const {
   loadStudents,
   loadStatistics,
   loadClassList,
+  loadHistory,
   performDraw,
   performBatchDraw,
   resetFilters,
@@ -93,7 +98,8 @@ onMounted(async () => {
   await Promise.all([
     loadStudents(),
     loadStatistics(),
-    loadClassList()
+    loadClassList(),
+    loadHistory()
   ]);
 });
 </script>
@@ -154,18 +160,25 @@ onMounted(async () => {
 .app-main {
   flex: 1;
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   padding: 2rem;
-  max-width: 1400px;
+  max-width: 1600px;
   width: 100%;
   margin: 0 auto;
 }
 
 .sidebar {
-  flex: 0 0 350px;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+.left-sidebar {
+  flex: 0 0 320px;
+}
+
+.right-sidebar {
+  flex: 0 0 350px;
 }
 
 .main-content {
@@ -173,6 +186,7 @@ onMounted(async () => {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  min-width: 0;
 }
 
 .app-footer {
@@ -184,12 +198,27 @@ onMounted(async () => {
 }
 
 /* 响应式设计 */
+@media (max-width: 1400px) {
+  .app-main {
+    max-width: 1200px;
+  }
+  
+  .left-sidebar {
+    flex: 0 0 280px;
+  }
+  
+  .right-sidebar {
+    flex: 0 0 300px;
+  }
+}
+
 @media (max-width: 1024px) {
   .app-main {
     flex-direction: column;
   }
   
-  .sidebar {
+  .left-sidebar,
+  .right-sidebar {
     flex: none;
     width: 100%;
   }
