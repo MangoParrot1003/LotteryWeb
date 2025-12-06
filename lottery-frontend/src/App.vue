@@ -25,15 +25,26 @@
           :disabled="isDrawing"
           @reset="resetFilters"
         />
+        <HistoryPanel
+          :history="drawHistory"
+          :exclude-drawn="excludeDrawn"
+          @clear="clearHistory"
+          @remove="removeFromHistory"
+          @update:exclude-drawn="excludeDrawn = $event"
+        />
       </aside>
 
       <!-- 右侧：抽签区域 -->
       <section class="main-content">
         <LotteryBox
           :student="selectedStudent"
+          :students="selectedStudents"
           :is-drawing="isDrawing"
           :disabled="filteredCount === 0"
+          :draw-count="drawCount"
           @draw="performDraw"
+          @batch-draw="performBatchDraw"
+          @update:draw-count="drawCount = $event"
         />
       </section>
     </main>
@@ -51,10 +62,12 @@ import { useLottery } from './composables/useLottery';
 import StatsCard from './components/StatsCard.vue';
 import FilterPanel from './components/FilterPanel.vue';
 import LotteryBox from './components/LotteryBox.vue';
+import HistoryPanel from './components/HistoryPanel.vue';
 
 // 使用抽签功能
 const {
   selectedStudent,
+  selectedStudents,
   statistics,
   classList,
   isDrawing,
@@ -62,11 +75,17 @@ const {
   filterGender,
   filterClass,
   filteredCount,
+  drawHistory,
+  excludeDrawn,
+  drawCount,
   loadStudents,
   loadStatistics,
   loadClassList,
   performDraw,
-  resetFilters
+  performBatchDraw,
+  resetFilters,
+  clearHistory,
+  removeFromHistory
 } = useLottery();
 
 // 组件挂载时加载数据

@@ -111,4 +111,50 @@ public class LotteryController : ControllerBase
         var classes = await _studentService.GetClassListAsync();
         return Ok(classes);
     }
+
+    /// <summary>
+    /// 批量随机抽取学生
+    /// </summary>
+    /// <param name="count">抽取数量</param>
+    /// <param name="gender">性别筛选（可选）</param>
+    /// <param name="className">班级筛选（可选）</param>
+    /// <returns>抽中的学生列表</returns>
+    /// <response code="200">返回抽中的学生列表</response>
+    /// <response code="400">请求参数错误</response>
+    /// <response code="404">没有足够的符合条件的学生</response>
+    [HttpGet("draw-multiple")]
+    [ProducesResponseType(typeof(IEnumerable<Student>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<IEnumerable<Student>>> DrawMultipleStudents(
+        [FromQuery] int count = 1,
+        [FromQuery] string? gender = null,
+        [FromQuery] string? className = null)
+    {
+        if (count < 1 || count > 50)
+        {
+            _logger.LogWarning("批量抽签数量无效: {Count}", count);
+            return BadRequest(new { message = "抽取数量必须在 1-50 之间" });
+        }
+
+        _logger.LogInformation("API调用: 批量抽签 - 数量={Count}, 性别={Gender}, 班级={Class}", 
+            count, gender ?? "全部", className ?? "全部");
+        
+        var students = await _studentService.DrawMultipleStudentsAsync(count, gender, className);
+        var studentList = students.ToList();
+        
+        if (!studentList.Any())
+        {
+            _logger.LogWarning("没有符合条件的学生 - 性别={Gender}, 班级={Class}", gender, className);
+            return NotFound(new { message = "没有符合条件的学生" });
+        }
+        
+        if (studentList.Count < count)
+        {
+            _logger.LogWarning("符合条件的学生不足 - 需要={Count}, 实际={Actual}", count, studentList.Count);
+            return NotFound(new { message = $"符合条件的学生不足，仅找到 {studentList.Count} 人" });
+        }
+        
+        return Ok(studentList);
+    }
 }

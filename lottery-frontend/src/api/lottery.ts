@@ -72,3 +72,27 @@ export async function getClassList(): Promise<string[]> {
   }
   return response.json();
 }
+
+/**
+ * 批量随机抽取学生
+ */
+export async function drawMultipleStudents(
+  count: number,
+  gender?: string,
+  className?: string
+): Promise<Student[]> {
+  const params = new URLSearchParams();
+  params.append('count', count.toString());
+  if (gender) params.append('gender', gender);
+  if (className) params.append('className', className);
+  
+  const url = `${API_BASE}/draw-multiple?${params.toString()}`;
+  const response = await fetch(url);
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || '批量抽签失败');
+  }
+  
+  return response.json();
+}

@@ -23,6 +23,11 @@ public interface IStudentService
     Task<Student?> DrawStudentAsync(string? gender = null, string? className = null);
     
     /// <summary>
+    /// 批量随机抽取学生
+    /// </summary>
+    Task<IEnumerable<Student>> DrawMultipleStudentsAsync(int count, string? gender = null, string? className = null, bool excludeDuplicates = true);
+    
+    /// <summary>
     /// 获取统计信息
     /// </summary>
     Task<object> GetStatisticsAsync();

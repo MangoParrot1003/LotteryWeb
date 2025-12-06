@@ -94,6 +94,43 @@ public class StudentService : IStudentService
     }
 
     /// <summary>
+    /// 批量随机抽取学生
+    /// </summary>
+    public async Task<IEnumerable<Student>> DrawMultipleStudentsAsync(int count, string? gender = null, string? className = null, bool excludeDuplicates = true)
+    {
+        using var connection = GetConnection();
+        
+        // 构建SQL查询
+        var sql = @"
+            SELECT id as Id, serial_number as SerialNumber, student_id as StudentId, 
+                   name as Name, gender as Gender, major as Major, class as Class
+            FROM students
+            WHERE 1=1";
+        
+        var parameters = new DynamicParameters();
+        
+        if (!string.IsNullOrEmpty(gender))
+        {
+            sql += " AND gender = @Gender";
+            parameters.Add("Gender", gender);
+        }
+        
+        if (!string.IsNullOrEmpty(className))
+        {
+            sql += " AND class = @Class";
+            parameters.Add("Class", className);
+        }
+        
+        sql += " ORDER BY RANDOM() LIMIT @Count";
+        parameters.Add("Count", count);
+        
+        _logger.LogInformation("批量抽签 - 数量: {Count}, 性别: {Gender}, 班级: {Class}", 
+            count, gender ?? "全部", className ?? "全部");
+        
+        return await connection.QueryAsync<Student>(sql, parameters);
+    }
+
+    /// <summary>
     /// 获取统计信息
     /// </summary>
     public async Task<object> GetStatisticsAsync()
