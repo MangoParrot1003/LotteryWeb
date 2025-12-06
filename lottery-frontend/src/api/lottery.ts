@@ -1,7 +1,14 @@
 import type { Student, Statistics } from '../types/student';
 
-// API 基础地址
-const API_BASE = 'http://localhost:5000/api/lottery';
+// API 基础地址 - 自动适配本机和局域网访问
+// 如果通过 IP 访问前端，后端也使用相同的 IP
+// 如果通过 localhost 访问前端，后端也使用 localhost
+const getApiBase = () => {
+  const hostname = window.location.hostname;
+  return `http://${hostname}:5000/api/lottery`;
+};
+
+const API_BASE = getApiBase();
 
 /**
  * 获取所有学生
