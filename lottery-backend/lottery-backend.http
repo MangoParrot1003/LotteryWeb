@@ -1,0 +1,6 @@
+@lottery_backend_HostAddress = http://localhost:5015
+
+GET {{lottery_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

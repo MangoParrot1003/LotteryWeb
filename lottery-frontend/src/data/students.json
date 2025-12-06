@@ -1,0 +1,2396 @@
+[
+  {
+    "id": 1,
+    "serialNumber": 1,
+    "studentId": "202****882",
+    "name": "高雨欣",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 57,
+    "serialNumber": 1,
+    "studentId": "202****154",
+    "name": "李梓亮",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 112,
+    "serialNumber": 1,
+    "studentId": "202****584",
+    "name": "卜梓昕",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 167,
+    "serialNumber": 1,
+    "studentId": "202****156",
+    "name": "吴茜颖",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 217,
+    "serialNumber": 1,
+    "studentId": "202****139",
+    "name": "汤楚桐",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 2,
+    "serialNumber": 2,
+    "studentId": "202****622",
+    "name": "毛韵儿",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 58,
+    "serialNumber": 2,
+    "studentId": "202****345",
+    "name": "韩嘉",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 113,
+    "serialNumber": 2,
+    "studentId": "202****884",
+    "name": "封菲阳",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 168,
+    "serialNumber": 2,
+    "studentId": "202****175",
+    "name": "吴笛",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 218,
+    "serialNumber": 2,
+    "studentId": "202****144",
+    "name": "苏晓童",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 3,
+    "serialNumber": 3,
+    "studentId": "202****062",
+    "name": "吴怡蓉",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 59,
+    "serialNumber": 3,
+    "studentId": "202****883",
+    "name": "孙嫣孺",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 114,
+    "serialNumber": 3,
+    "studentId": "202****284",
+    "name": "任亮羽",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 169,
+    "serialNumber": 3,
+    "studentId": "202****795",
+    "name": "康晨熙",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 219,
+    "serialNumber": 3,
+    "studentId": "202****145",
+    "name": "谭粤心",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 4,
+    "serialNumber": 4,
+    "studentId": "202****226",
+    "name": "赵彬洁",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 60,
+    "serialNumber": 4,
+    "studentId": "202****375",
+    "name": "赵梦薇",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 115,
+    "serialNumber": 4,
+    "studentId": "202****450",
+    "name": "王士瑞",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 170,
+    "serialNumber": 4,
+    "studentId": "202****065",
+    "name": "黄梦洁",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 220,
+    "serialNumber": 4,
+    "studentId": "202****287",
+    "name": "高婉婷",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 5,
+    "serialNumber": 5,
+    "studentId": "202****024",
+    "name": "董嘉艺",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 61,
+    "serialNumber": 5,
+    "studentId": "202****451",
+    "name": "韩梓雯",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 116,
+    "serialNumber": 5,
+    "studentId": "202****761",
+    "name": "傅小颖",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 171,
+    "serialNumber": 5,
+    "studentId": "202****904",
+    "name": "李庶",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 221,
+    "serialNumber": 5,
+    "studentId": "202****905",
+    "name": "邢爱聆",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 6,
+    "serialNumber": 6,
+    "studentId": "202****083",
+    "name": "张晓钰",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 62,
+    "serialNumber": 6,
+    "studentId": "202****760",
+    "name": "钟旻",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 117,
+    "serialNumber": 6,
+    "studentId": "202****025",
+    "name": "王亦菲",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 172,
+    "serialNumber": 6,
+    "studentId": "202****142",
+    "name": "龙曦",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 222,
+    "serialNumber": 6,
+    "studentId": "202****147",
+    "name": "张婉莹",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 7,
+    "serialNumber": 7,
+    "studentId": "202****134",
+    "name": "吕冰纯",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 63,
+    "serialNumber": 7,
+    "studentId": "202****084",
+    "name": "周希雯",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 118,
+    "serialNumber": 7,
+    "studentId": "202****136",
+    "name": "温建姿",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 173,
+    "serialNumber": 7,
+    "studentId": "202****155",
+    "name": "王莎",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 223,
+    "serialNumber": 7,
+    "studentId": "202****157",
+    "name": "黄姝玲",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 8,
+    "serialNumber": 8,
+    "studentId": "202****592",
+    "name": "周诗苗",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 64,
+    "serialNumber": 8,
+    "studentId": "202****116",
+    "name": "刘长青",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 119,
+    "serialNumber": 8,
+    "studentId": "202****620",
+    "name": "李京",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 174,
+    "serialNumber": 8,
+    "studentId": "202****176",
+    "name": "张智欣",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 224,
+    "serialNumber": 8,
+    "studentId": "202****162",
+    "name": "何昕晴",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 9,
+    "serialNumber": 9,
+    "studentId": "202****170",
+    "name": "徐子淇",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 65,
+    "serialNumber": 9,
+    "studentId": "202****131",
+    "name": "郑慧怡",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 120,
+    "serialNumber": 9,
+    "studentId": "202****989",
+    "name": "黎綺雯",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 175,
+    "serialNumber": 9,
+    "studentId": "202****179",
+    "name": "彭思琪",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 225,
+    "serialNumber": 9,
+    "studentId": "202****867",
+    "name": "岑浣喬",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 10,
+    "serialNumber": 10,
+    "studentId": "202****184",
+    "name": "楚伦呼蒙根珠乐",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 66,
+    "serialNumber": 10,
+    "studentId": "202****221",
+    "name": "吴善嘉",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 121,
+    "serialNumber": 10,
+    "studentId": "202****180",
+    "name": "陈芷婷",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 176,
+    "serialNumber": 10,
+    "studentId": "202****793",
+    "name": "王睿",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 226,
+    "serialNumber": 10,
+    "studentId": "202****206",
+    "name": "吴丹妮",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 11,
+    "serialNumber": 11,
+    "studentId": "202****080",
+    "name": "朱莹",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 67,
+    "serialNumber": 11,
+    "studentId": "202****202",
+    "name": "李旻桦",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 122,
+    "serialNumber": 11,
+    "studentId": "202****077",
+    "name": "谢慧恩",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 177,
+    "serialNumber": 11,
+    "studentId": "202****212",
+    "name": "林于巧",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 227,
+    "serialNumber": 11,
+    "studentId": "202****886",
+    "name": "夏天宇",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 12,
+    "serialNumber": 12,
+    "studentId": "202****126",
+    "name": "何姝蓉",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 68,
+    "serialNumber": 12,
+    "studentId": "202****082",
+    "name": "翁敏欣",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 123,
+    "serialNumber": 12,
+    "studentId": "202****106",
+    "name": "朱嘉琪",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 178,
+    "serialNumber": 12,
+    "studentId": "202****493",
+    "name": "杨雅棋",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 228,
+    "serialNumber": 12,
+    "studentId": "202****142",
+    "name": "赵鑫桐",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 13,
+    "serialNumber": 13,
+    "studentId": "202****241",
+    "name": "陳玉彤",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 69,
+    "serialNumber": 13,
+    "studentId": "202****117",
+    "name": "列倩翠",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 124,
+    "serialNumber": 13,
+    "studentId": "202****135",
+    "name": "卢依娜",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 179,
+    "serialNumber": 13,
+    "studentId": "202****412",
+    "name": "陈嘉",
+    "gender": "女",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 229,
+    "serialNumber": 13,
+    "studentId": "202****144",
+    "name": "王政棋",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 14,
+    "serialNumber": 14,
+    "studentId": "202****093",
+    "name": "李天怡",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 70,
+    "serialNumber": 14,
+    "studentId": "202****968",
+    "name": "钟庭茜",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 125,
+    "serialNumber": 14,
+    "studentId": "202****054",
+    "name": "陈敏钰",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 180,
+    "serialNumber": 14,
+    "studentId": "202****686",
+    "name": "蔡金希",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 230,
+    "serialNumber": 14,
+    "studentId": "202****063",
+    "name": "杨云森",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 15,
+    "serialNumber": 15,
+    "studentId": "202****110",
+    "name": "杨欣裕",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 71,
+    "serialNumber": 15,
+    "studentId": "202****021",
+    "name": "王恩倪",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 126,
+    "serialNumber": 15,
+    "studentId": "202****264",
+    "name": "王瑛琪",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 181,
+    "serialNumber": 15,
+    "studentId": "202****484",
+    "name": "林嘉城",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 231,
+    "serialNumber": 15,
+    "studentId": "202****064",
+    "name": "张心宇",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 16,
+    "serialNumber": 16,
+    "studentId": "202****266",
+    "name": "李钰岚",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 72,
+    "serialNumber": 16,
+    "studentId": "202****048",
+    "name": "张灵怡",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 127,
+    "serialNumber": 16,
+    "studentId": "202****751",
+    "name": "甄嘉颖",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 182,
+    "serialNumber": 16,
+    "studentId": "202****921",
+    "name": "程锦廷",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 232,
+    "serialNumber": 16,
+    "studentId": "202****159",
+    "name": "李俊杰",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 17,
+    "serialNumber": 17,
+    "studentId": "202****790",
+    "name": "刘超",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 73,
+    "serialNumber": 17,
+    "studentId": "202****344",
+    "name": "陈福源",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 128,
+    "serialNumber": 17,
+    "studentId": "202****380",
+    "name": "林香",
+    "gender": "女",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 183,
+    "serialNumber": 17,
+    "studentId": "202****203",
+    "name": "韩福衍",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 233,
+    "serialNumber": 17,
+    "studentId": "202****178",
+    "name": "欧阳浩钊",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 18,
+    "serialNumber": 18,
+    "studentId": "202****373",
+    "name": "齐轩昂",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 74,
+    "serialNumber": 18,
+    "studentId": "202****792",
+    "name": "焦德龙",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 129,
+    "serialNumber": 18,
+    "studentId": "202****109",
+    "name": "黄万民",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 184,
+    "serialNumber": 18,
+    "studentId": "202****112",
+    "name": "岳佳横",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 234,
+    "serialNumber": 18,
+    "studentId": "202****288",
+    "name": "曹旺",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 19,
+    "serialNumber": 19,
+    "studentId": "202****374",
+    "name": "袁观理",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 75,
+    "serialNumber": 19,
+    "studentId": "202****619",
+    "name": "周越",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 130,
+    "serialNumber": 19,
+    "studentId": "202****286",
+    "name": "魏思源",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 185,
+    "serialNumber": 19,
+    "studentId": "202****117",
+    "name": "张志恒",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 235,
+    "serialNumber": 19,
+    "studentId": "202****179",
+    "name": "施佳立",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 20,
+    "serialNumber": 20,
+    "studentId": "202****959",
+    "name": "杨广斌",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 76,
+    "serialNumber": 20,
+    "studentId": "202****225",
+    "name": "邵子逸",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 131,
+    "serialNumber": 20,
+    "studentId": "202****621",
+    "name": "张平东",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 186,
+    "serialNumber": 20,
+    "studentId": "202****863",
+    "name": "任天豪",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 236,
+    "serialNumber": 20,
+    "studentId": "202****261",
+    "name": "李静敏",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 21,
+    "serialNumber": 21,
+    "studentId": "202****060",
+    "name": "张泽建",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 77,
+    "serialNumber": 21,
+    "studentId": "202****023",
+    "name": "白昊伟",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 132,
+    "serialNumber": 21,
+    "studentId": "202****224",
+    "name": "伍晨风",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 187,
+    "serialNumber": 21,
+    "studentId": "202****488",
+    "name": "江秦安",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 237,
+    "serialNumber": 21,
+    "studentId": "202****146",
+    "name": "柯乐恒",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 22,
+    "serialNumber": 22,
+    "studentId": "202****346",
+    "name": "黄之秦",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 78,
+    "serialNumber": 22,
+    "studentId": "202****961",
+    "name": "黎雨灿",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 133,
+    "serialNumber": 22,
+    "studentId": "202****452",
+    "name": "魏康博",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 188,
+    "serialNumber": 22,
+    "studentId": "202****794",
+    "name": "李承昊",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 238,
+    "serialNumber": 22,
+    "studentId": "202****158",
+    "name": "陆宏轩",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 23,
+    "serialNumber": 23,
+    "studentId": "202****791",
+    "name": "孙艺峰",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 79,
+    "serialNumber": 23,
+    "studentId": "202****061",
+    "name": "陈柏良",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 134,
+    "serialNumber": 23,
+    "studentId": "202****730",
+    "name": "闭樾桂",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 189,
+    "serialNumber": 23,
+    "studentId": "202****885",
+    "name": "徐祥寓",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 239,
+    "serialNumber": 23,
+    "studentId": "202****164",
+    "name": "郑建霖",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 24,
+    "serialNumber": 24,
+    "studentId": "202****285",
+    "name": "谷涛",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 80,
+    "serialNumber": 24,
+    "studentId": "202****111",
+    "name": "全学宏",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 135,
+    "serialNumber": 24,
+    "studentId": "202****731",
+    "name": "顾俊杰",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 190,
+    "serialNumber": 24,
+    "studentId": "202****887",
+    "name": "牛荣基",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 240,
+    "serialNumber": 24,
+    "studentId": "202****154",
+    "name": "林栩乐",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 25,
+    "serialNumber": 25,
+    "studentId": "202****098",
+    "name": "庞博",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 81,
+    "serialNumber": 25,
+    "studentId": "202****128",
+    "name": "吴伟锋",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 136,
+    "serialNumber": 25,
+    "studentId": "202****960",
+    "name": "姚登山",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 191,
+    "serialNumber": 25,
+    "studentId": "202****143",
+    "name": "葛嘉渝",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 241,
+    "serialNumber": 25,
+    "studentId": "202****171",
+    "name": "郑植彬",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 26,
+    "serialNumber": 26,
+    "studentId": "202****133",
+    "name": "罗洽",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 82,
+    "serialNumber": 26,
+    "studentId": "202****987",
+    "name": "卢子杨",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 137,
+    "serialNumber": 26,
+    "studentId": "202****153",
+    "name": "陳洛恆",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 192,
+    "serialNumber": 26,
+    "studentId": "202****903",
+    "name": "王彦傑",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 242,
+    "serialNumber": 26,
+    "studentId": "202****173",
+    "name": "刘爽",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 27,
+    "serialNumber": 27,
+    "studentId": "202****413",
+    "name": "梁柏麒",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 83,
+    "serialNumber": 27,
+    "studentId": "202****235",
+    "name": "黄浩初",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 138,
+    "serialNumber": 27,
+    "studentId": "202****283",
+    "name": "郭梓俊",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 193,
+    "serialNumber": 27,
+    "studentId": "202****148",
+    "name": "晏学平",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 243,
+    "serialNumber": 27,
+    "studentId": "202****845",
+    "name": "施鸿森",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 28,
+    "serialNumber": 28,
+    "studentId": "202****756",
+    "name": "张浩锴",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 84,
+    "serialNumber": 28,
+    "studentId": "202****184",
+    "name": "张智鑫",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 139,
+    "serialNumber": 28,
+    "studentId": "202****039",
+    "name": "钟勤文",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 194,
+    "serialNumber": 28,
+    "studentId": "202****166",
+    "name": "林佳豪",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 244,
+    "serialNumber": 28,
+    "studentId": "202****057",
+    "name": "續卓宇",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 29,
+    "serialNumber": 29,
+    "studentId": "202****179",
+    "name": "高连凯",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 85,
+    "serialNumber": 29,
+    "studentId": "202****095",
+    "name": "王卓",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 140,
+    "serialNumber": 29,
+    "studentId": "202****389",
+    "name": "黄伟斌",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 195,
+    "serialNumber": 29,
+    "studentId": "202****468",
+    "name": "谭锦麟",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 245,
+    "serialNumber": 29,
+    "studentId": "202****163",
+    "name": "林永鑫",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 30,
+    "serialNumber": 30,
+    "studentId": "202****081",
+    "name": "黄力",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 86,
+    "serialNumber": 30,
+    "studentId": "202****137",
+    "name": "曾值",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 141,
+    "serialNumber": 30,
+    "studentId": "202****244",
+    "name": "杨渝彬",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 196,
+    "serialNumber": 30,
+    "studentId": "202****261",
+    "name": "赵维圣",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 246,
+    "serialNumber": 30,
+    "studentId": "202****172",
+    "name": "陶新钊",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 31,
+    "serialNumber": 31,
+    "studentId": "202****104",
+    "name": "郑家濠",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 87,
+    "serialNumber": 31,
+    "studentId": "202****213",
+    "name": "蔡嘉渭",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 142,
+    "serialNumber": 31,
+    "studentId": "202****335",
+    "name": "叶锦诚",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 197,
+    "serialNumber": 31,
+    "studentId": "202****152",
+    "name": "黄国彰",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 247,
+    "serialNumber": 31,
+    "studentId": "202****174",
+    "name": "梁善睿",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 32,
+    "serialNumber": 32,
+    "studentId": "202****019",
+    "name": "黃梓軒",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 88,
+    "serialNumber": 32,
+    "studentId": "202****154",
+    "name": "卢培铵",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 143,
+    "serialNumber": 32,
+    "studentId": "202****123",
+    "name": "肖永健",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 198,
+    "serialNumber": 32,
+    "studentId": "202****153",
+    "name": "余承志",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 248,
+    "serialNumber": 32,
+    "studentId": "202****017",
+    "name": "李明哲",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 33,
+    "serialNumber": 33,
+    "studentId": "202****363",
+    "name": "麦浩锋",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 89,
+    "serialNumber": 33,
+    "studentId": "202****113",
+    "name": "陳毅朗",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 144,
+    "serialNumber": 33,
+    "studentId": "202****127",
+    "name": "黄腾达",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 199,
+    "serialNumber": 33,
+    "studentId": "202****289",
+    "name": "张敬尧",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 249,
+    "serialNumber": 33,
+    "studentId": "202****163",
+    "name": "陈泽凯",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 34,
+    "serialNumber": 34,
+    "studentId": "202****355",
+    "name": "陈俊熹",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 90,
+    "serialNumber": 34,
+    "studentId": "202****078",
+    "name": "谢圣慧",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 145,
+    "serialNumber": 34,
+    "studentId": "202****242",
+    "name": "許陽洋",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 200,
+    "serialNumber": 34,
+    "studentId": "202****081",
+    "name": "何梓民",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 250,
+    "serialNumber": 34,
+    "studentId": "202****141",
+    "name": "陆梓辉",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 35,
+    "serialNumber": 35,
+    "studentId": "202****129",
+    "name": "葛宗霖",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 91,
+    "serialNumber": 35,
+    "studentId": "202****125",
+    "name": "刘鹏",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 146,
+    "serialNumber": 35,
+    "studentId": "202****092",
+    "name": "冯嘉尚",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 201,
+    "serialNumber": 35,
+    "studentId": "202****875",
+    "name": "鍾境豪",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 251,
+    "serialNumber": 35,
+    "studentId": "202****161",
+    "name": "程家欣",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 36,
+    "serialNumber": 36,
+    "studentId": "202****132",
+    "name": "谢思耿",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 92,
+    "serialNumber": 36,
+    "studentId": "202****979",
+    "name": "刘泽熹",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 147,
+    "serialNumber": 36,
+    "studentId": "202****118",
+    "name": "林俊刚",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 202,
+    "serialNumber": 36,
+    "studentId": "202****140",
+    "name": "陆家洛",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 252,
+    "serialNumber": 36,
+    "studentId": "202****180",
+    "name": "曹星泽",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 37,
+    "serialNumber": 37,
+    "studentId": "202****915",
+    "name": "洪逸霖",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 93,
+    "serialNumber": 37,
+    "studentId": "202****105",
+    "name": "徐承晖",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 148,
+    "serialNumber": 37,
+    "studentId": "202****130",
+    "name": "梁钧鹏",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 203,
+    "serialNumber": 37,
+    "studentId": "202****143",
+    "name": "叶宏涛",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 253,
+    "serialNumber": 37,
+    "studentId": "202****633",
+    "name": "黄奕烽",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 38,
+    "serialNumber": 38,
+    "studentId": "202****113",
+    "name": "黄宥翔",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 94,
+    "serialNumber": 38,
+    "studentId": "202****189",
+    "name": "施竑均",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 149,
+    "serialNumber": 38,
+    "studentId": "202****138",
+    "name": "陈钜成",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 204,
+    "serialNumber": 38,
+    "studentId": "202****167",
+    "name": "陈堉彬",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 254,
+    "serialNumber": 38,
+    "studentId": "202****252",
+    "name": "张振宇",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 39,
+    "serialNumber": 39,
+    "studentId": "202****201",
+    "name": "古文凯",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 95,
+    "serialNumber": 39,
+    "studentId": "202****099",
+    "name": "许炙皓",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 150,
+    "serialNumber": 39,
+    "studentId": "202****610",
+    "name": "劉泓溢",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 205,
+    "serialNumber": 39,
+    "studentId": "202****510",
+    "name": "黄钰琅",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 255,
+    "serialNumber": 39,
+    "studentId": "202****165",
+    "name": "阮志锋",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 40,
+    "serialNumber": 40,
+    "studentId": "202****088",
+    "name": "黎殷荣",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 96,
+    "serialNumber": 40,
+    "studentId": "202****121",
+    "name": "李均扬",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 151,
+    "serialNumber": 40,
+    "studentId": "202****085",
+    "name": "杨嘉诚",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 206,
+    "serialNumber": 40,
+    "studentId": "202****230",
+    "name": "张安",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 256,
+    "serialNumber": 40,
+    "studentId": "202****170",
+    "name": "彭臻燊",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 41,
+    "serialNumber": 41,
+    "studentId": "202****102",
+    "name": "王跃铭",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 97,
+    "serialNumber": 41,
+    "studentId": "202****723",
+    "name": "曾天赐",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 152,
+    "serialNumber": 41,
+    "studentId": "202****094",
+    "name": "张洪玮",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 207,
+    "serialNumber": 41,
+    "studentId": "202****151",
+    "name": "梁嘉颖",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 257,
+    "serialNumber": 41,
+    "studentId": "202****046",
+    "name": "钟瀚贤",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 42,
+    "serialNumber": 42,
+    "studentId": "202****443",
+    "name": "钟志轩",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 98,
+    "serialNumber": 42,
+    "studentId": "202****892",
+    "name": "庄佳润",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 153,
+    "serialNumber": 42,
+    "studentId": "202****108",
+    "name": "黄俊豪",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 208,
+    "serialNumber": 42,
+    "studentId": "202****169",
+    "name": "梁永浩",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 258,
+    "serialNumber": 42,
+    "studentId": "202****058",
+    "name": "顏鴻銘",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 43,
+    "serialNumber": 43,
+    "studentId": "202****693",
+    "name": "黄柯衡",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 99,
+    "serialNumber": 43,
+    "studentId": "202****146",
+    "name": "邓智谦",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 154,
+    "serialNumber": 43,
+    "studentId": "202****114",
+    "name": "余杜文",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 209,
+    "serialNumber": 43,
+    "studentId": "202****177",
+    "name": "谢鑫泽",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 259,
+    "serialNumber": 43,
+    "studentId": "202****409",
+    "name": "梁怀智",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 44,
+    "serialNumber": 44,
+    "studentId": "202****686",
+    "name": "许环利",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 100,
+    "serialNumber": 44,
+    "studentId": "202****086",
+    "name": "甘建邦",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 155,
+    "serialNumber": 44,
+    "studentId": "202****126",
+    "name": "吴俊錡",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 210,
+    "serialNumber": 44,
+    "studentId": "202****249",
+    "name": "张唯中",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 260,
+    "serialNumber": 44,
+    "studentId": "202****321",
+    "name": "戴明凯",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 45,
+    "serialNumber": 45,
+    "studentId": "202****113",
+    "name": "邱知宁",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 101,
+    "serialNumber": 45,
+    "studentId": "202****096",
+    "name": "陈洛奇",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 156,
+    "serialNumber": 45,
+    "studentId": "202****079",
+    "name": "谢威廉",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 211,
+    "serialNumber": 45,
+    "studentId": "202****088",
+    "name": "姜佳俊",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 261,
+    "serialNumber": 45,
+    "studentId": "202****647",
+    "name": "鄧成鍇",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 46,
+    "serialNumber": 46,
+    "studentId": "202****124",
+    "name": "许境峰",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 102,
+    "serialNumber": 46,
+    "studentId": "202****480",
+    "name": "李炜杰",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 157,
+    "serialNumber": 46,
+    "studentId": "202****087",
+    "name": "古家骏",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 212,
+    "serialNumber": 46,
+    "studentId": "202****149",
+    "name": "黄灿彬",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 262,
+    "serialNumber": 46,
+    "studentId": "202****524",
+    "name": "李健辉",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 47,
+    "serialNumber": 47,
+    "studentId": "202****067",
+    "name": "叶志鑫",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 103,
+    "serialNumber": 47,
+    "studentId": "202****603",
+    "name": "賴志宏",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 158,
+    "serialNumber": 47,
+    "studentId": "202****512",
+    "name": "秦洪毅",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 213,
+    "serialNumber": 47,
+    "studentId": "202****150",
+    "name": "朱嘉辉",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 263,
+    "serialNumber": 47,
+    "studentId": "202****641",
+    "name": "陈俊宇",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 48,
+    "serialNumber": 48,
+    "studentId": "202****532",
+    "name": "陈泳豪",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 104,
+    "serialNumber": 48,
+    "studentId": "202****107",
+    "name": "张佳润",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 159,
+    "serialNumber": 48,
+    "studentId": "202****103",
+    "name": "周晓杰",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 214,
+    "serialNumber": 48,
+    "studentId": "202****160",
+    "name": "池桁辉",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 264,
+    "serialNumber": 48,
+    "studentId": "202****773",
+    "name": "董毓",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 49,
+    "serialNumber": 49,
+    "studentId": "202****947",
+    "name": "施銘鋒",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 105,
+    "serialNumber": 49,
+    "studentId": "202****112",
+    "name": "陈自平",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 160,
+    "serialNumber": 49,
+    "studentId": "202****119",
+    "name": "韩承缙",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 215,
+    "serialNumber": 49,
+    "studentId": "202****516",
+    "name": "雷佳鸣",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 265,
+    "serialNumber": 49,
+    "studentId": "202****579",
+    "name": "林御榮",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 50,
+    "serialNumber": 50,
+    "studentId": "202****101",
+    "name": "赖云天",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 106,
+    "serialNumber": 50,
+    "studentId": "202****958",
+    "name": "冯孝生",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 161,
+    "serialNumber": 50,
+    "studentId": "202****159",
+    "name": "王斯立",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 216,
+    "serialNumber": 50,
+    "studentId": "202****520",
+    "name": "先智诚",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工1班"
+  },
+  {
+    "id": 266,
+    "serialNumber": 50,
+    "studentId": "202****091",
+    "name": "曾荣添",
+    "gender": "男",
+    "major": "软件工程",
+    "class": "25软工2班"
+  },
+  {
+    "id": 51,
+    "serialNumber": 51,
+    "studentId": "202****105",
+    "name": "麦树灿",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 107,
+    "serialNumber": 51,
+    "studentId": "202****986",
+    "name": "周金朗",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 162,
+    "serialNumber": 51,
+    "studentId": "202****033",
+    "name": "黃鍇翔",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 52,
+    "serialNumber": 52,
+    "studentId": "202****412",
+    "name": "陳均灏",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 108,
+    "serialNumber": 52,
+    "studentId": "202****100",
+    "name": "颜大为",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 163,
+    "serialNumber": 52,
+    "studentId": "202****085",
+    "name": "高志成",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 53,
+    "serialNumber": 53,
+    "studentId": "202****177",
+    "name": "黄毅贤",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 109,
+    "serialNumber": 53,
+    "studentId": "202****122",
+    "name": "殷晋源",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 164,
+    "serialNumber": 53,
+    "studentId": "202****650",
+    "name": "谈宏彬",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 54,
+    "serialNumber": 54,
+    "studentId": "202****657",
+    "name": "陈永信",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 110,
+    "serialNumber": 54,
+    "studentId": "202****091",
+    "name": "秦启腾",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 165,
+    "serialNumber": 54,
+    "studentId": "202****097",
+    "name": "徐粲杰",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 55,
+    "serialNumber": 55,
+    "studentId": "202****089",
+    "name": "黄子翔",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  },
+  {
+    "id": 111,
+    "serialNumber": 55,
+    "studentId": "202****120",
+    "name": "钟华山",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科2班"
+  },
+  {
+    "id": 166,
+    "serialNumber": 55,
+    "studentId": "202****115",
+    "name": "李齐俊",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科3班"
+  },
+  {
+    "id": 56,
+    "serialNumber": 56,
+    "studentId": "202****090",
+    "name": "李文轩",
+    "gender": "男",
+    "major": "计算机科学与技术",
+    "class": "25计科1班"
+  }
+]
