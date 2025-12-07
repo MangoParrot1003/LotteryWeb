@@ -155,7 +155,7 @@ export function useLottery() {
   }
 
   /**
-   * 批量抽签
+   * 批量抽签 - 依次抽取
    */
   async function performBatchDraw() {
     if (isDrawing.value) return;
@@ -166,30 +166,41 @@ export function useLottery() {
       selectedStudent.value = null;
       selectedStudents.value = [];
 
-      // 动画效果
-      const animationDuration = 2000;
-      const interval = 100;
-      const iterations = animationDuration / interval;
+      // 依次抽取每个学生
+      for (let i = 0; i < drawCount.value; i++) {
+        // 每次抽签前的动画效果（缩短时间）
+        const animationDuration = 1000; // 1秒动画
+        const interval = 80; // 每80ms切换一次
+        const iterations = animationDuration / interval;
 
-      for (let i = 0; i < iterations; i++) {
-        if (filteredStudents.value.length > 0) {
-          const randomIndex = Math.floor(Math.random() * filteredStudents.value.length);
-          const student = filteredStudents.value[randomIndex];
-          if (student) {
-            selectedStudent.value = student;
+        for (let j = 0; j < iterations; j++) {
+          if (filteredStudents.value.length > 0) {
+            const randomIndex = Math.floor(Math.random() * filteredStudents.value.length);
+            const student = filteredStudents.value[randomIndex];
+            if (student) {
+              selectedStudent.value = student;
+            }
+            await new Promise(resolve => setTimeout(resolve, interval));
           }
-          await new Promise(resolve => setTimeout(resolve, interval));
+        }
+
+        // 抽取一个学生
+        const result = await lotteryApi.drawStudent(
+          filterGender.value || undefined,
+          filterClass.value || undefined
+        );
+        
+        // 添加到结果列表
+        selectedStudents.value.push(result);
+        selectedStudent.value = result;
+        
+        // 每次抽取之间的间隔（最后一次不需要等待）
+        if (i < drawCount.value - 1) {
+          await new Promise(resolve => setTimeout(resolve, 500));
         }
       }
-
-      // 真正的批量抽签
-      const results = await lotteryApi.drawMultipleStudents(
-        drawCount.value,
-        filterGender.value || undefined,
-        filterClass.value || undefined
-      );
       
-      selectedStudents.value = results;
+      // 清除单个学生显示，只显示批量结果
       selectedStudent.value = null;
       
       // 重新加载历史记录

@@ -44,35 +44,24 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowVue", policy =>
     {
-        // 开发环境：允许所有来源（包括局域网）
-        if (builder.Environment.IsDevelopment())
-        {
-            policy.AllowAnyOrigin()
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        }
-        else
-        {
-            // 生产环境：只允许指定域名
-            policy.WithOrigins("https://your-domain.com")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        }
+        // 允许所有来源（适用于内网或测试环境）
+        // 生产环境建议配置具体的域名
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
     });
 });
 
 var app = builder.Build();
 
 // 配置 HTTP 请求管道
-if (app.Environment.IsDevelopment())
+// 启用 Swagger（开发和生产环境都可用）
+app.UseSwagger();
+app.UseSwaggerUI(options =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "学生抽签系统 API v1");
-        options.RoutePrefix = string.Empty; // 设置 Swagger UI 为根路径
-    });
-}
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "学生抽签系统 API v1");
+    options.RoutePrefix = string.Empty; // 设置 Swagger UI 为根路径
+});
 
 app.UseCors("AllowVue");
 app.UseAuthorization();

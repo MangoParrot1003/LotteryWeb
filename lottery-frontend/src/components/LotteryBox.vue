@@ -64,25 +64,28 @@
     </transition>
 
     <!-- 批量结果显示 -->
-    <transition name="fade">
-      <div v-if="students.length > 0" class="batch-results">
-        <h3 class="batch-title">🎉 抽中的学生</h3>
-        <div class="batch-grid">
+    <div v-if="students.length > 0" class="batch-results">
+      <h3 class="batch-title">🎉 已抽中 {{ students.length }} 人</h3>
+      <div class="batch-grid">
+        <transition-group name="batch-item">
           <div 
             v-for="(s, index) in students" 
             :key="s.id"
             class="batch-card"
-            :style="{ animationDelay: `${index * 0.1}s` }"
+            :class="{ 'is-latest': index === students.length - 1 && isDrawing }"
           >
             <div class="batch-number">{{ index + 1 }}</div>
             <div class="batch-avatar">{{ s.name.charAt(0) }}</div>
             <div class="batch-name">{{ s.name }}</div>
             <div class="batch-id">{{ s.studentId }}</div>
             <div class="batch-class">{{ s.class }}</div>
+            <div v-if="index === students.length - 1 && isDrawing" class="latest-badge">
+              ✨ 最新
+            </div>
           </div>
-        </div>
+        </transition-group>
       </div>
-    </transition>
+    </div>
 
     <!-- 空状态 -->
     <div v-if="!student && students.length === 0 && !isDrawing" class="empty-state">
@@ -312,6 +315,69 @@ defineEmits<{
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
+/* 最新抽中的学生高亮效果 */
+.batch-card.is-latest {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.6);
+  animation: glow 1.5s ease-in-out infinite, slideIn 0.5s ease-out;
+  z-index: 10;
+}
+
+.batch-card.is-latest .batch-number {
+  background: white;
+  color: #667eea;
+}
+
+.batch-card.is-latest .batch-avatar {
+  background: white;
+  color: #667eea;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.batch-card.is-latest .batch-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.batch-card.is-latest .batch-id,
+.batch-card.is-latest .batch-class {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.latest-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #ffd700;
+  color: #333;
+  padding: 0.3rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.5);
+  animation: bounce 0.6s ease-in-out;
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.6);
+  }
+  50% {
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.9), 0 0 40px rgba(102, 126, 234, 0.4);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -384,6 +450,22 @@ defineEmits<{
 .fade-leave-to {
   opacity: 0;
   transform: scale(0.9);
+}
+
+/* 批量抽签动画 */
+.batch-item-enter-active {
+  animation: batchSlideIn 0.5s ease-out;
+}
+
+@keyframes batchSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* 响应式 */

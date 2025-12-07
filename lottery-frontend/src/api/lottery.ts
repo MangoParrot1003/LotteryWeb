@@ -5,7 +5,7 @@ import type { Student, Statistics, DrawHistory } from '../types/student';
 // 如果通过 localhost 访问前端，后端也使用 localhost
 const getApiBase = () => {
   const hostname = window.location.hostname;
-  return `http://${hostname}:5000/api/lottery`;
+  return `http://${hostname}:8502/api/lottery`;
 };
 
 const API_BASE = getApiBase();
