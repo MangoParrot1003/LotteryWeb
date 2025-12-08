@@ -1,5 +1,58 @@
 # 更新日志
 
+## [v0.1.3] - 2025-12-08
+
+### 🐛 问题修复
+
+#### 随机抽签功能修复
+- 🔧 **修复抽签按钮不显示问题**
+  - 修复 `App.vue` 缺少 `LotteryBox` 组件导入
+  - 修复后随机抽签按钮和历史记录面板正常显示
+
+### ✨ 新增功能
+
+#### 分组历史持久化
+- 📋 **独立的分组历史记录**
+  - 新增 `grouping_history` 数据库表（与 `draw_history` 分开存储）
+  - 分组结果自动保存到数据库
+  - 刷新页面后分组历史不丢失
+
+- 🎨 **分组历史面板**
+  - 新增 `GroupingHistoryPanel.vue` 组件
+  - 按批次显示分组历史
+  - 显示每组成员名单
+  - 支持删除单个批次或清空全部
+
+- 🔄 **模式切换历史面板**
+  - 随机抽签模式 → 显示抽签历史
+  - 全班分组模式 → 显示分组历史
+
+#### 界面优化
+- 🎯 **分组成员横向排列**
+  - 组内成员从竖向改为横向显示
+  - 每个成员卡片使用头像+姓名的紧凑布局
+  - 添加悬停动画效果
+
+### 🔧 技术改进
+
+#### 后端新增
+- 📦 `GroupingHistory.cs` - 分组历史数据模型
+- 📦 `IGroupingHistoryRepository.cs` - 分组历史仓储接口
+- 📦 `GroupingHistoryRepository.cs` - 分组历史仓储实现
+- 🔌 新增 4 个分组历史 API：
+  - `POST /api/lottery/grouping` - 保存分组结果
+  - `GET /api/lottery/grouping-history` - 获取分组历史
+  - `DELETE /api/lottery/grouping-history` - 清空分组历史
+  - `DELETE /api/lottery/grouping-history/{batchId}` - 删除指定批次
+
+#### 前端新增
+- 📦 `GroupingHistoryPanel.vue` - 分组历史显示组件
+- 🔄 更新 `useLottery.ts` 添加分组历史状态和方法
+- 🌐 更新 `lottery.ts` API 添加分组历史接口调用
+- 📝 更新 `student.ts` 添加 `GroupingHistory` 类型
+
+---
+
 ## [v0.2.2] - 2025-12-07
 
 ### 📚 文档更新

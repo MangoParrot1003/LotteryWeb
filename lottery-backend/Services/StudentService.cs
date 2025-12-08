@@ -1,5 +1,6 @@
 using LotteryBackend.Models;
 using LotteryBackend.Repositories;
+using System.Text.Json;
 
 namespace LotteryBackend.Services;
 
@@ -10,15 +11,18 @@ public class StudentService : IStudentService
 {
     private readonly IStudentRepository _studentRepository;
     private readonly IDrawHistoryRepository _historyRepository;
+    private readonly IGroupingHistoryRepository _groupingHistoryRepository;
     private readonly ILogger<StudentService> _logger;
 
     public StudentService(
         IStudentRepository studentRepository,
         IDrawHistoryRepository historyRepository,
+        IGroupingHistoryRepository groupingHistoryRepository,
         ILogger<StudentService> logger)
     {
         _studentRepository = studentRepository;
         _historyRepository = historyRepository;
+        _groupingHistoryRepository = groupingHistoryRepository;
         _logger = logger;
     }
 
@@ -144,4 +148,88 @@ public class StudentService : IStudentService
         
         _logger.LogInformation("删除抽签历史记录 - ID: {Id}", historyId);
     }
+
+    // ========== 分组历史相关方法 ==========
+
+    /// <summary>
+    /// 保存分组历史记录
+    /// </summary>
+    public async Task SaveGroupingHistoryAsync(List<List<Student>> groups, int groupSize, string? sessionId = null)
+    {
+        var batchId = Guid.NewGuid().ToString();
+        var groupTime = DateTime.Now;
+        var totalGroups = groups.Count;
+
+        for (int i = 0; i < groups.Count; i++)
+        {
+            var group = groups[i];
+            var membersJson = JsonSerializer.Serialize(group.Select(s => new
+            {
+                s.Id,
+                s.StudentId,
+                s.Name,
+                s.Gender,
+                s.Class,
+                s.Major
+            }));
+
+            var history = new GroupingHistory
+            {
+                BatchId = batchId,
+                GroupNumber = i + 1,
+                GroupSize = groupSize,
+                TotalGroups = totalGroups,
+                Members = membersJson,
+                GroupTime = groupTime,
+                SessionId = sessionId
+            };
+
+            await _groupingHistoryRepository.AddAsync(history);
+        }
+
+        await _groupingHistoryRepository.SaveChangesAsync();
+        _logger.LogInformation("保存分组历史 - 批次: {BatchId}, 总组数: {TotalGroups}", batchId, totalGroups);
+    }
+
+    /// <summary>
+    /// 获取分组历史记录
+    /// </summary>
+    public async Task<IEnumerable<GroupingHistory>> GetGroupingHistoryAsync(string? sessionId = null, int limit = 10)
+    {
+        _logger.LogInformation("获取分组历史 - 会话: {SessionId}, 限制: {Limit}", sessionId ?? "全部", limit);
+
+        if (!string.IsNullOrEmpty(sessionId))
+        {
+            return await _groupingHistoryRepository.GetBySessionIdAsync(sessionId, limit);
+        }
+
+        return await _groupingHistoryRepository.GetRecentHistoryAsync(limit);
+    }
+
+    /// <summary>
+    /// 清空分组历史记录
+    /// </summary>
+    public async Task ClearGroupingHistoryAsync(string? sessionId = null)
+    {
+        if (!string.IsNullOrEmpty(sessionId))
+        {
+            await _groupingHistoryRepository.ClearBySessionIdAsync(sessionId);
+            _logger.LogInformation("清空分组历史 - 会话: {SessionId}", sessionId);
+        }
+        else
+        {
+            await _groupingHistoryRepository.ClearAllAsync();
+            _logger.LogInformation("清空所有分组历史");
+        }
+    }
+
+    /// <summary>
+    /// 删除指定批次的分组历史
+    /// </summary>
+    public async Task DeleteGroupingHistoryByBatchIdAsync(string batchId)
+    {
+        await _groupingHistoryRepository.DeleteByBatchIdAsync(batchId);
+        _logger.LogInformation("删除分组历史 - 批次: {BatchId}", batchId);
+    }
 }
+

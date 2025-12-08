@@ -56,4 +56,27 @@ public interface IStudentService
     /// 删除单条历史记录
     /// </summary>
     Task DeleteDrawHistoryAsync(int historyId);
+    
+    // ========== 分组历史相关方法 ==========
+    
+    /// <summary>
+    /// 保存分组历史记录
+    /// </summary>
+    Task SaveGroupingHistoryAsync(List<List<Student>> groups, int groupSize, string? sessionId = null);
+    
+    /// <summary>
+    /// 获取分组历史记录
+    /// </summary>
+    Task<IEnumerable<GroupingHistory>> GetGroupingHistoryAsync(string? sessionId = null, int limit = 10);
+    
+    /// <summary>
+    /// 清空分组历史记录
+    /// </summary>
+    Task ClearGroupingHistoryAsync(string? sessionId = null);
+    
+    /// <summary>
+    /// 删除指定批次的分组历史
+    /// </summary>
+    Task DeleteGroupingHistoryByBatchIdAsync(string batchId);
 }
+

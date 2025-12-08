@@ -53,6 +53,20 @@ export interface DrawHistory {
 }
 
 /**
+ * 分组历史记录接口
+ */
+export interface GroupingHistory {
+  id: number;
+  batchId: string;
+  groupNumber: number;
+  groupSize: number;
+  totalGroups: number;
+  members: string; // JSON string of members
+  groupTime: string;
+  sessionId?: string;
+}
+
+/**
  * API 响应接口
  */
 export interface ApiResponse<T> {

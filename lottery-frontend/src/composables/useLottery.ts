@@ -30,11 +30,11 @@ export function useLottery() {
   // 计算属性
   const filteredStudents = computed(() => {
     let result = students.value;
-    
+
     if (filterGender.value) {
       result = result.filter(s => s.gender === filterGender.value);
     }
-    
+
     if (filterClass.value) {
       result = result.filter(s => s.class === filterClass.value);
     }
@@ -44,7 +44,7 @@ export function useLottery() {
       const drawnIds = new Set(drawHistory.value.map(h => h.studentId));
       result = result.filter(s => !drawnIds.has(s.id));
     }
-    
+
     return result;
   });
 
@@ -111,7 +111,7 @@ export function useLottery() {
    */
   async function performDraw() {
     if (isDrawing.value) return;
-    
+
     try {
       isDrawing.value = true;
       error.value = null;
@@ -140,9 +140,9 @@ export function useLottery() {
         filterGender.value || undefined,
         filterClass.value || undefined
       );
-      
+
       selectedStudent.value = result;
-      
+
       // 重新加载历史记录
       await loadHistory();
     } catch (e) {
@@ -159,7 +159,7 @@ export function useLottery() {
    */
   async function performBatchDraw() {
     if (isDrawing.value) return;
-    
+
     try {
       isDrawing.value = true;
       error.value = null;
@@ -189,20 +189,20 @@ export function useLottery() {
           filterGender.value || undefined,
           filterClass.value || undefined
         );
-        
+
         // 添加到结果列表
         selectedStudents.value.push(result);
         selectedStudent.value = result;
-        
+
         // 每次抽取之间的间隔（最后一次不需要等待）
         if (i < drawCount.value - 1) {
           await new Promise(resolve => setTimeout(resolve, 500));
         }
       }
-      
+
       // 清除单个学生显示，只显示批量结果
       selectedStudent.value = null;
-      
+
       // 重新加载历史记录
       await loadHistory();
     } catch (e) {
@@ -259,6 +259,110 @@ export function useLottery() {
     }
   }
 
+  // --- 分组功能 ---
+  const groupedStudents = ref<Student[][]>([]);
+  const groupSize = ref(2);
+  const groupingHistory = ref<import('../types/student').GroupingHistory[]>([]);
+
+  /**
+   * 加载分组历史
+   */
+  async function loadGroupingHistory() {
+    try {
+      error.value = null;
+      const history = await lotteryApi.getGroupingHistory();
+      groupingHistory.value = history;
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : '加载分组历史失败';
+      console.error('加载分组历史失败:', e);
+    }
+  }
+
+  /**
+   * 执行随机分组
+   */
+  async function performGrouping() {
+    if (isLoading.value) return;
+
+    try {
+      isLoading.value = true;
+      error.value = null;
+      // 模拟一点延迟，让用户感觉到在计算
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // 1. 获取当前筛选后的学生列表副本
+      const studentsToGroup = [...filteredStudents.value];
+
+      // 2. 洗牌 (Fisher-Yates Shuffle)
+      for (let i = studentsToGroup.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = studentsToGroup[i];
+        studentsToGroup[i] = studentsToGroup[j]!;
+        studentsToGroup[j] = temp!;
+      }
+
+      // 3. 分组
+      const groups: Student[][] = [];
+      for (let i = 0; i < studentsToGroup.length; i += groupSize.value) {
+        groups.push(studentsToGroup.slice(i, i + groupSize.value));
+      }
+
+      groupedStudents.value = groups;
+
+      // 4. 保存分组结果到数据库
+      if (groups.length > 0) {
+        const groupsToSave = groups.map(group =>
+          group.map(s => ({
+            id: s.id,
+            studentId: s.studentId,
+            name: s.name,
+            gender: s.gender,
+            class: s.class,
+            major: s.major
+          }))
+        );
+        await lotteryApi.saveGrouping(groupsToSave, groupSize.value);
+        // 重新加载分组历史
+        await loadGroupingHistory();
+      }
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : '分组失败';
+      console.error('分组失败:', e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  /**
+   * 清空分组历史
+   */
+  async function clearGroupingHistory() {
+    try {
+      error.value = null;
+      await lotteryApi.clearGroupingHistory();
+      groupingHistory.value = [];
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : '清空分组历史失败';
+      console.error('清空分组历史失败:', e);
+    }
+  }
+
+  /**
+   * 删除指定批次的分组历史
+   */
+  async function deleteGroupingHistoryBatch(batchId: string) {
+    try {
+      error.value = null;
+      await lotteryApi.deleteGroupingHistoryBatch(batchId);
+      // 重新加载分组历史
+      await loadGroupingHistory();
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : '删除分组历史失败';
+      console.error('删除分组历史失败:', e);
+    }
+  }
+
+
   return {
     // 状态
     students,
@@ -269,20 +373,20 @@ export function useLottery() {
     isDrawing,
     isLoading,
     error,
-    
+
     // 筛选
     filterGender,
     filterClass,
     filteredStudents,
     filteredCount,
-    
+
     // 历史记录
     drawHistory,
     excludeDrawn,
-    
+
     // 批量抽签
     drawCount,
-    
+
     // 方法
     loadStudents,
     loadStatistics,
@@ -293,6 +397,17 @@ export function useLottery() {
     resetFilters,
     clearSelection,
     clearHistory,
-    removeFromHistory
+    removeFromHistory,
+
+    // 分组
+    groupedStudents,
+    groupSize,
+    performGrouping,
+    groupingHistory,
+    loadGroupingHistory,
+    clearGroupingHistory,
+    deleteGroupingHistoryBatch
+
   };
 }
+

@@ -15,6 +15,7 @@ builder.Services.AddDbContext<StudentContext>(options =>
 // 注册仓储
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IDrawHistoryRepository, DrawHistoryRepository>();
+builder.Services.AddScoped<IGroupingHistoryRepository, GroupingHistoryRepository>();
 
 // 注册服务
 builder.Services.AddScoped<IStudentService, StudentService>();

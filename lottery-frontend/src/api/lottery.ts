@@ -39,15 +39,15 @@ export async function drawStudent(gender?: string, className?: string): Promise<
   const params = new URLSearchParams();
   if (gender) params.append('gender', gender);
   if (className) params.append('className', className);
-  
+
   const url = `${API_BASE}/draw${params.toString() ? '?' + params.toString() : ''}`;
   const response = await fetch(url);
-  
+
   if (!response.ok) {
     const error = await response.json();
     throw new Error(error.message || '抽签失败');
   }
-  
+
   return response.json();
 }
 
@@ -85,15 +85,15 @@ export async function drawMultipleStudents(
   params.append('count', count.toString());
   if (gender) params.append('gender', gender);
   if (className) params.append('className', className);
-  
+
   const url = `${API_BASE}/draw-multiple?${params.toString()}`;
   const response = await fetch(url);
-  
+
   if (!response.ok) {
     const error = await response.json();
     throw new Error(error.message || '批量抽签失败');
   }
-  
+
   return response.json();
 }
 
@@ -104,14 +104,14 @@ export async function getDrawHistory(sessionId?: string, limit: number = 100): P
   const params = new URLSearchParams();
   if (sessionId) params.append('sessionId', sessionId);
   params.append('limit', limit.toString());
-  
+
   const url = `${API_BASE}/history?${params.toString()}`;
   const response = await fetch(url);
-  
+
   if (!response.ok) {
     throw new Error('获取历史记录失败');
   }
-  
+
   return response.json();
 }
 
@@ -121,10 +121,10 @@ export async function getDrawHistory(sessionId?: string, limit: number = 100): P
 export async function clearDrawHistory(sessionId?: string): Promise<void> {
   const params = new URLSearchParams();
   if (sessionId) params.append('sessionId', sessionId);
-  
+
   const url = `${API_BASE}/history?${params.toString()}`;
   const response = await fetch(url, { method: 'DELETE' });
-  
+
   if (!response.ok) {
     throw new Error('清空历史记录失败');
   }
@@ -136,8 +136,80 @@ export async function clearDrawHistory(sessionId?: string): Promise<void> {
 export async function deleteDrawHistory(historyId: number): Promise<void> {
   const url = `${API_BASE}/history/${historyId}`;
   const response = await fetch(url, { method: 'DELETE' });
-  
+
   if (!response.ok) {
     throw new Error('删除历史记录失败');
+  }
+}
+
+// ========== 分组历史 API ==========
+
+/**
+ * 保存分组结果
+ */
+export async function saveGrouping(
+  groups: Array<Array<{ id: number; studentId: string; name: string; gender?: string; class?: string; major?: string }>>,
+  groupSize: number,
+  sessionId?: string
+): Promise<void> {
+  const response = await fetch(`${API_BASE}/grouping`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      groups,
+      groupSize,
+      sessionId
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('保存分组失败');
+  }
+}
+
+/**
+ * 获取分组历史记录
+ */
+export async function getGroupingHistory(sessionId?: string, limit: number = 10): Promise<import('../types/student').GroupingHistory[]> {
+  const params = new URLSearchParams();
+  if (sessionId) params.append('sessionId', sessionId);
+  params.append('limit', limit.toString());
+
+  const url = `${API_BASE}/grouping-history?${params.toString()}`;
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error('获取分组历史失败');
+  }
+
+  return response.json();
+}
+
+/**
+ * 清空分组历史记录
+ */
+export async function clearGroupingHistory(sessionId?: string): Promise<void> {
+  const params = new URLSearchParams();
+  if (sessionId) params.append('sessionId', sessionId);
+
+  const url = `${API_BASE}/grouping-history?${params.toString()}`;
+  const response = await fetch(url, { method: 'DELETE' });
+
+  if (!response.ok) {
+    throw new Error('清空分组历史失败');
+  }
+}
+
+/**
+ * 删除指定批次的分组历史
+ */
+export async function deleteGroupingHistoryBatch(batchId: string): Promise<void> {
+  const url = `${API_BASE}/grouping-history/${batchId}`;
+  const response = await fetch(url, { method: 'DELETE' });
+
+  if (!response.ok) {
+    throw new Error('删除分组历史失败');
   }
 }

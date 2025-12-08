@@ -9,6 +9,7 @@ namespace LotteryBackend.Data
 
         public DbSet<Student> Students { get; set; }
         public DbSet<DrawHistory> DrawHistories { get; set; }
+        public DbSet<GroupingHistory> GroupingHistories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,6 +35,18 @@ namespace LotteryBackend.Data
             modelBuilder.Entity<DrawHistory>().Property(h => h.SessionId).HasColumnName("session_id");
             modelBuilder.Entity<DrawHistory>().Property(h => h.IsBatch).HasColumnName("is_batch");
             modelBuilder.Entity<DrawHistory>().Property(h => h.BatchId).HasColumnName("batch_id");
+
+            // 分组历史表配置
+            modelBuilder.Entity<GroupingHistory>().ToTable("grouping_history");
+            modelBuilder.Entity<GroupingHistory>().Property(h => h.Id).HasColumnName("id");
+            modelBuilder.Entity<GroupingHistory>().Property(h => h.BatchId).HasColumnName("batch_id");
+            modelBuilder.Entity<GroupingHistory>().Property(h => h.GroupNumber).HasColumnName("group_number");
+            modelBuilder.Entity<GroupingHistory>().Property(h => h.GroupSize).HasColumnName("group_size");
+            modelBuilder.Entity<GroupingHistory>().Property(h => h.TotalGroups).HasColumnName("total_groups");
+            modelBuilder.Entity<GroupingHistory>().Property(h => h.Members).HasColumnName("members");
+            modelBuilder.Entity<GroupingHistory>().Property(h => h.GroupTime).HasColumnName("group_time");
+            modelBuilder.Entity<GroupingHistory>().Property(h => h.SessionId).HasColumnName("session_id");
         }
     }
 }
+

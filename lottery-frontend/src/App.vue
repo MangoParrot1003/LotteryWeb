@@ -29,26 +29,65 @@
 
       <!-- 中间：抽签区域 -->
       <section class="main-content">
-        <LotteryBox
-          :student="selectedStudent"
-          :students="selectedStudents"
-          :is-drawing="isDrawing"
-          :disabled="filteredCount === 0"
-          :draw-count="drawCount"
-          @draw="performDraw"
-          @batch-draw="performBatchDraw"
-          @update:draw-count="drawCount = $event"
-        />
+        <!-- 模式切换标签 -->
+        <div class="mode-tabs">
+          <button 
+            class="tab-btn" 
+            :class="{ active: currentMode === 'lottery' }"
+            @click="currentMode = 'lottery'"
+          >
+            🎲 随机抽签
+          </button>
+          <button 
+            class="tab-btn" 
+            :class="{ active: currentMode === 'grouping' }"
+            @click="currentMode = 'grouping'"
+          >
+            👥 全班分组
+          </button>
+        </div>
+
+        <div class="content-body">
+          <LotteryBox
+            v-if="currentMode === 'lottery'"
+            :student="selectedStudent"
+            :students="selectedStudents"
+            :is-drawing="isDrawing"
+            :disabled="filteredCount === 0"
+            :draw-count="drawCount"
+            @draw="performDraw"
+            @batch-draw="performBatchDraw"
+            @update:draw-count="drawCount = $event"
+          />
+
+          <GroupingBox
+            v-else
+            :groups="groupedStudents"
+            v-model:group-size="groupSize"
+            :is-grouping="isDrawing" 
+            :disabled="filteredCount === 0"
+            @group="performGrouping"
+          />
+        </div>
       </section>
 
       <!-- 右侧：历史记录 -->
       <aside class="sidebar right-sidebar">
+        <!-- 随机抽签历史 -->
         <HistoryPanel
+          v-if="currentMode === 'lottery'"
           :history="drawHistory"
           :exclude-drawn="excludeDrawn"
           @clear="clearHistory"
           @remove="removeFromHistory"
           @update:exclude-drawn="excludeDrawn = $event"
+        />
+        <!-- 分组历史 -->
+        <GroupingHistoryPanel
+          v-else
+          :history="groupingHistory"
+          @clear="clearGroupingHistory"
+          @remove="deleteGroupingHistoryBatch"
         />
       </aside>
     </main>
@@ -61,12 +100,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useLottery } from './composables/useLottery';
 import StatsCard from './components/StatsCard.vue';
 import FilterPanel from './components/FilterPanel.vue';
-import LotteryBox from './components/LotteryBox.vue';
+import GroupingBox from './components/GroupingBox.vue';
 import HistoryPanel from './components/HistoryPanel.vue';
+import LotteryBox from './components/LotteryBox.vue';
+import GroupingHistoryPanel from './components/GroupingHistoryPanel.vue';
 
 // 使用抽签功能
 const {
@@ -90,8 +131,20 @@ const {
   performBatchDraw,
   resetFilters,
   clearHistory,
-  removeFromHistory
+  removeFromHistory,
+  
+  // 分组
+  groupedStudents,
+  groupSize,
+  performGrouping,
+  loadGroupingHistory,
+  groupingHistory,
+  clearGroupingHistory,
+  deleteGroupingHistoryBatch
 } = useLottery();
+
+// 模式切换
+const currentMode = ref<'lottery' | 'grouping'>('lottery');
 
 // 组件挂载时加载数据
 onMounted(async () => {
@@ -99,7 +152,8 @@ onMounted(async () => {
     loadStudents(),
     loadStatistics(),
     loadClassList(),
-    loadHistory()
+    loadHistory(),
+    loadGroupingHistory()
   ]);
 });
 </script>
@@ -187,6 +241,46 @@ onMounted(async () => {
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.mode-tabs {
+  display: flex;
+  background: #f8f9fa;
+  border-bottom: 1px solid #eee;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  background: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 3px solid transparent;
+}
+
+.tab-btn:hover {
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.05);
+}
+
+.tab-btn.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
+  background: white;
+  font-weight: bold;
+}
+
+.content-body {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
 }
 
 .app-footer {

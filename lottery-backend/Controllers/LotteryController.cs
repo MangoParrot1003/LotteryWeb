@@ -225,4 +225,121 @@ public class LotteryController : ControllerBase
         await _studentService.DeleteDrawHistoryAsync(id);
         return Ok(new { message = "历史记录已删除" });
     }
+
+    // ========== 分组历史相关 API ==========
+
+    /// <summary>
+    /// 保存分组结果
+    /// </summary>
+    /// <param name="request">分组请求</param>
+    /// <returns>操作结果</returns>
+    /// <response code="200">保存成功</response>
+    [HttpPost("grouping")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> SaveGrouping([FromBody] SaveGroupingRequest request)
+    {
+        _logger.LogInformation("API调用: 保存分组 - 组数={GroupCount}, 每组人数={GroupSize}", 
+            request.Groups.Count, request.GroupSize);
+        
+        // 转换请求数据为 List<List<Student>>
+        var groups = request.Groups.Select(g => g.Select(m => new Models.Student
+        {
+            Id = m.Id,
+            StudentId = m.StudentId,
+            Name = m.Name,
+            Gender = m.Gender,
+            Class = m.Class,
+            Major = m.Major
+        }).ToList()).ToList();
+
+        await _studentService.SaveGroupingHistoryAsync(groups, request.GroupSize, request.SessionId);
+        return Ok(new { message = "分组结果已保存" });
+    }
+
+    /// <summary>
+    /// 获取分组历史记录
+    /// </summary>
+    /// <param name="sessionId">会话ID（可选）</param>
+    /// <param name="limit">返回数量限制</param>
+    /// <returns>分组历史记录列表</returns>
+    /// <response code="200">返回分组历史记录列表</response>
+    [HttpGet("grouping-history")]
+    [ProducesResponseType(typeof(IEnumerable<Models.GroupingHistory>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<IEnumerable<Models.GroupingHistory>>> GetGroupingHistory(
+        [FromQuery] string? sessionId = null,
+        [FromQuery] int limit = 10)
+    {
+        _logger.LogInformation("API调用: 获取分组历史 - 会话={SessionId}, 限制={Limit}", 
+            sessionId ?? "全部", limit);
+        
+        var history = await _studentService.GetGroupingHistoryAsync(sessionId, limit);
+        return Ok(history);
+    }
+
+    /// <summary>
+    /// 清空分组历史记录
+    /// </summary>
+    /// <param name="sessionId">会话ID（可选，不传则清空所有）</param>
+    /// <returns>操作结果</returns>
+    /// <response code="200">清空成功</response>
+    [HttpDelete("grouping-history")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> ClearGroupingHistory([FromQuery] string? sessionId = null)
+    {
+        _logger.LogInformation("API调用: 清空分组历史 - 会话={SessionId}", sessionId ?? "全部");
+        
+        await _studentService.ClearGroupingHistoryAsync(sessionId);
+        return Ok(new { message = "分组历史记录已清空" });
+    }
+
+    /// <summary>
+    /// 删除指定批次的分组历史
+    /// </summary>
+    /// <param name="batchId">批次ID</param>
+    /// <returns>操作结果</returns>
+    /// <response code="200">删除成功</response>
+    [HttpDelete("grouping-history/{batchId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> DeleteGroupingHistoryBatch(string batchId)
+    {
+        _logger.LogInformation("API调用: 删除分组历史批次 - BatchId={BatchId}", batchId);
+        
+        await _studentService.DeleteGroupingHistoryByBatchIdAsync(batchId);
+        return Ok(new { message = "分组历史批次已删除" });
+    }
 }
+
+/// <summary>
+/// 保存分组请求模型
+/// </summary>
+public class SaveGroupingRequest
+{
+    /// <summary>
+    /// 分组结果
+    /// </summary>
+    public List<List<GroupMember>> Groups { get; set; } = new();
+    
+    /// <summary>
+    /// 每组人数设置
+    /// </summary>
+    public int GroupSize { get; set; }
+    
+    /// <summary>
+    /// 会话ID（可选）
+    /// </summary>
+    public string? SessionId { get; set; }
+}
+
+/// <summary>
+/// 分组成员信息
+/// </summary>
+public class GroupMember
+{
+    public int Id { get; set; }
+    public string StudentId { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string? Gender { get; set; }
+    public string? Class { get; set; }
+    public string? Major { get; set; }
+}
+
