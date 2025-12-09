@@ -45,6 +45,20 @@
           >
             👥 全班分组
           </button>
+          <button 
+            class="tab-btn" 
+            :class="{ active: currentMode === 'prize' }"
+            @click="currentMode = 'prize'"
+          >
+            🎁 单项抽奖
+          </button>
+          <button 
+            class="tab-btn" 
+            :class="{ active: currentMode === 'multiPrize' }"
+            @click="currentMode = 'multiPrize'"
+          >
+            🏆 多奖项抽奖
+          </button>
         </div>
 
         <div class="content-body">
@@ -61,12 +75,30 @@
           />
 
           <GroupingBox
-            v-else
+            v-else-if="currentMode === 'grouping'"
             :groups="groupedStudents"
             v-model:group-size="groupSize"
             :is-grouping="isDrawing" 
             :disabled="filteredCount === 0"
             @group="performGrouping"
+          />
+
+          <PrizeDrawBox
+            v-else-if="currentMode === 'prize'"
+            :winners="prizeWinners"
+            :prize-name="prizeName"
+            :winner-count="winnerCount"
+            :is-drawing="isDrawing"
+            :disabled="filteredCount === 0"
+            @draw="performPrizeDraw"
+            @update:prize-name="prizeName = $event"
+            @update:winner-count="winnerCount = $event"
+          />
+
+          <MultiPrizeDraw
+            v-else-if="currentMode === 'multiPrize'"
+            :filter-gender="filterGender"
+            :filter-class="filterClass"
           />
         </div>
       </section>
@@ -84,10 +116,24 @@
         />
         <!-- 分组历史 -->
         <GroupingHistoryPanel
-          v-else
+          v-else-if="currentMode === 'grouping'"
           :history="groupingHistory"
           @clear="clearGroupingHistory"
           @remove="deleteGroupingHistoryBatch"
+        />
+        <!-- 单项抽奖历史 -->
+        <PrizeHistoryPanel
+          v-else-if="currentMode === 'prize'"
+          :history="prizeHistory"
+          @clear="clearPrizeHistory"
+          @remove="removePrizeHistory"
+        />
+        <!-- 多奖项抽奖历史 -->
+        <PrizeHistoryPanel
+          v-else-if="currentMode === 'multiPrize'"
+          :history="prizeHistory"
+          @clear="clearPrizeHistory"
+          @remove="removePrizeHistory"
         />
       </aside>
     </main>
@@ -108,6 +154,9 @@ import GroupingBox from './components/GroupingBox.vue';
 import HistoryPanel from './components/HistoryPanel.vue';
 import LotteryBox from './components/LotteryBox.vue';
 import GroupingHistoryPanel from './components/GroupingHistoryPanel.vue';
+import PrizeDrawBox from './components/PrizeDrawBox.vue';
+import PrizeHistoryPanel from './components/PrizeHistoryPanel.vue';
+import MultiPrizeDraw from './components/MultiPrizeDraw.vue';
 
 // 使用抽签功能
 const {
@@ -140,11 +189,21 @@ const {
   loadGroupingHistory,
   groupingHistory,
   clearGroupingHistory,
-  deleteGroupingHistoryBatch
+  deleteGroupingHistoryBatch,
+
+  // 抽奖
+  prizeWinners,
+  prizeName,
+  winnerCount,
+  performPrizeDraw,
+  prizeHistory,
+  loadPrizeHistory,
+  clearPrizeHistory,
+  removePrizeHistory
 } = useLottery();
 
 // 模式切换
-const currentMode = ref<'lottery' | 'grouping'>('lottery');
+const currentMode = ref<'lottery' | 'grouping' | 'prize'>('lottery');
 
 // 组件挂载时加载数据
 onMounted(async () => {
@@ -153,7 +212,8 @@ onMounted(async () => {
     loadStatistics(),
     loadClassList(),
     loadHistory(),
-    loadGroupingHistory()
+    loadGroupingHistory(),
+    loadPrizeHistory()
   ]);
 });
 </script>

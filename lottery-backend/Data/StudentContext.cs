@@ -10,6 +10,7 @@ namespace LotteryBackend.Data
         public DbSet<Student> Students { get; set; }
         public DbSet<DrawHistory> DrawHistories { get; set; }
         public DbSet<GroupingHistory> GroupingHistories { get; set; }
+        public DbSet<PrizeDrawHistory> PrizeDrawHistories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,6 +47,16 @@ namespace LotteryBackend.Data
             modelBuilder.Entity<GroupingHistory>().Property(h => h.Members).HasColumnName("members");
             modelBuilder.Entity<GroupingHistory>().Property(h => h.GroupTime).HasColumnName("group_time");
             modelBuilder.Entity<GroupingHistory>().Property(h => h.SessionId).HasColumnName("session_id");
+
+            // 抽奖历史表配置
+            modelBuilder.Entity<PrizeDrawHistory>().ToTable("prize_draw_history");
+            modelBuilder.Entity<PrizeDrawHistory>().Property(h => h.Id).HasColumnName("id");
+            modelBuilder.Entity<PrizeDrawHistory>().Property(h => h.PrizeName).HasColumnName("prize_name");
+            modelBuilder.Entity<PrizeDrawHistory>().Property(h => h.Winners).HasColumnName("winners");
+            modelBuilder.Entity<PrizeDrawHistory>().Property(h => h.WinnerCount).HasColumnName("winner_count");
+            modelBuilder.Entity<PrizeDrawHistory>().Property(h => h.DrawTime).HasColumnName("draw_time");
+            modelBuilder.Entity<PrizeDrawHistory>().Property(h => h.SessionId).HasColumnName("session_id");
+            modelBuilder.Entity<PrizeDrawHistory>().Property(h => h.BatchId).HasColumnName("batch_id");
         }
     }
 }

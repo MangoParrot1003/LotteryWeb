@@ -213,3 +213,75 @@ export async function deleteGroupingHistoryBatch(batchId: string): Promise<void>
     throw new Error('删除分组历史失败');
   }
 }
+
+// ========== 抽奖历史 API ==========
+
+/**
+ * 保存抽奖结果
+ */
+export async function savePrizeDraw(
+  prizeName: string,
+  winners: Student[],
+  sessionId?: string
+): Promise<void> {
+  const response = await fetch(`${API_BASE}/prize-draw`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      prizeName,
+      winners,
+      sessionId
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('保存抽奖结果失败');
+  }
+}
+
+/**
+ * 获取抽奖历史记录
+ */
+export async function getPrizeHistory(sessionId?: string, limit: number = 10): Promise<any[]> {
+  const params = new URLSearchParams();
+  if (sessionId) params.append('sessionId', sessionId);
+  params.append('limit', limit.toString());
+
+  const url = `${API_BASE}/prize-history?${params.toString()}`;
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error('获取抽奖历史失败');
+  }
+
+  return response.json();
+}
+
+/**
+ * 清空抽奖历史记录
+ */
+export async function clearPrizeHistory(sessionId?: string): Promise<void> {
+  const params = new URLSearchParams();
+  if (sessionId) params.append('sessionId', sessionId);
+
+  const url = `${API_BASE}/prize-history?${params.toString()}`;
+  const response = await fetch(url, { method: 'DELETE' });
+
+  if (!response.ok) {
+    throw new Error('清空抽奖历史失败');
+  }
+}
+
+/**
+ * 删除单条抽奖历史记录
+ */
+export async function deletePrizeHistory(historyId: number): Promise<void> {
+  const url = `${API_BASE}/prize-history/${historyId}`;
+  const response = await fetch(url, { method: 'DELETE' });
+
+  if (!response.ok) {
+    throw new Error('删除抽奖历史失败');
+  }
+}

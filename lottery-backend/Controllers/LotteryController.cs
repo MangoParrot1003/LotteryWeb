@@ -307,6 +307,173 @@ public class LotteryController : ControllerBase
         await _studentService.DeleteGroupingHistoryByBatchIdAsync(batchId);
         return Ok(new { message = "分组历史批次已删除" });
     }
+
+    // ========== 抽奖历史相关 API ==========
+
+    /// <summary>
+    /// 保存抽奖结果
+    /// </summary>
+    /// <param name="request">抽奖请求</param>
+    /// <returns>操作结果</returns>
+    /// <response code="200">保存成功</response>
+    [HttpPost("prize-draw")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> SavePrizeDraw([FromBody] SavePrizeDrawRequest request)
+    {
+        _logger.LogInformation("API调用: 保存抽奖 - 奖品={PrizeName}, 中奖人数={Count}", 
+            request.PrizeName, request.Winners.Count);
+
+        // 转换为 Student 对象
+        var winners = request.Winners.Select(w => new Models.Student
+        {
+            Id = w.Id,
+            StudentId = w.StudentId,
+            Name = w.Name,
+            Gender = w.Gender,
+            Class = w.Class,
+            Major = w.Major
+        }).ToList();
+
+        await _studentService.SavePrizeDrawHistoryAsync(request.PrizeName, winners, request.SessionId);
+        return Ok(new { message = "抽奖结果已保存" });
+    }
+
+    /// <summary>
+    /// 获取抽奖历史记录
+    /// </summary>
+    /// <param name="sessionId">会话ID（可选）</param>
+    /// <param name="limit">返回数量限制</param>
+    /// <returns>抽奖历史记录列表</returns>
+    /// <response code="200">返回抽奖历史记录列表</response>
+    [HttpGet("prize-history")]
+    [ProducesResponseType(typeof(IEnumerable<Models.PrizeDrawHistory>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<IEnumerable<Models.PrizeDrawHistory>>> GetPrizeHistory(
+        [FromQuery] string? sessionId = null,
+        [FromQuery] int limit = 10)
+    {
+        _logger.LogInformation("API调用: 获取抽奖历史 - 会话={SessionId}, 限制={Limit}", 
+            sessionId ?? "全部", limit);
+
+        var history = await _studentService.GetPrizeHistoryAsync(sessionId, limit);
+        return Ok(history);
+    }
+
+    /// <summary>
+    /// 清空抽奖历史记录
+    /// </summary>
+    /// <param name="sessionId">会话ID（可选，不传则清空所有）</param>
+    /// <returns>操作结果</returns>
+    /// <response code="200">清空成功</response>
+    [HttpDelete("prize-history")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> ClearPrizeHistory([FromQuery] string? sessionId = null)
+    {
+        _logger.LogInformation("API调用: 清空抽奖历史 - 会话={SessionId}", sessionId ?? "全部");
+
+        await _studentService.ClearPrizeHistoryAsync(sessionId);
+        return Ok(new { message = "抽奖历史记录已清空" });
+    }
+
+    /// <summary>
+    /// 删除单条抽奖历史记录
+    /// </summary>
+    /// <param name="id">历史记录ID</param>
+    /// <returns>操作结果</returns>
+    /// <response code="200">删除成功</response>
+    [HttpDelete("prize-history/{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> DeletePrizeHistory(int id)
+    {
+        _logger.LogInformation("API调用: 删除抽奖历史记录 - ID={Id}", id);
+
+        await _studentService.DeletePrizeHistoryAsync(id);
+        return Ok(new { message = "抽奖历史记录已删除" });
+    }
+
+    /// <summary>
+    /// 批量抽奖（一次抽取多个奖项）
+    /// </summary>
+    /// <param name="request">批量抽奖请求</param>
+    /// <returns>操作结果</returns>
+    /// <response code="200">抽奖成功</response>
+    [HttpPost("prize-draw-batch")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> SaveBatchPrizeDraw([FromBody] SaveBatchPrizeDrawRequest request)
+    {
+        _logger.LogInformation("API调用: 批量抽奖 - 奖项数={Count}", request.Prizes.Count);
+
+        // 生成批次ID
+        var batchId = Guid.NewGuid().ToString();
+        var allWinnersIds = new HashSet<int>(); // 用于防止重复中奖
+
+        foreach (var prize in request.Prizes)
+        {
+            // 抽取中奖者，排除已中奖的学生
+            var availableStudents = await _studentService.DrawMultipleStudentsAsync(
+                prize.WinnerCount,
+                request.Gender,
+                request.ClassName);
+
+            var winners = availableStudents
+                .Where(s => !allWinnersIds.Contains(s.Id))
+                .Take(prize.WinnerCount)
+                .ToList();
+
+            // 如果不够人数，继续抽取
+            while (winners.Count < prize.WinnerCount)
+            {
+                var additionalStudent = await _studentService.DrawStudentAsync(
+                    request.Gender,
+                    request.ClassName);
+
+                if (additionalStudent != null && !allWinnersIds.Contains(additionalStudent.Id))
+                {
+                    winners.Add(additionalStudent);
+                    allWinnersIds.Add(additionalStudent.Id);
+                }
+                else
+                {
+                    break; // 没有更多符合条件的学生
+                }
+            }
+
+            // 记录已中奖学生
+            foreach (var winner in winners)
+            {
+                allWinnersIds.Add(winner.Id);
+            }
+
+            // 保存本奖项的抽奖结果
+            await _studentService.SavePrizeDrawHistoryAsync(
+                prize.PrizeName,
+                winners,
+                request.SessionId,
+                batchId);
+        }
+
+        return Ok(new { message = "批量抽奖完成", batchId });
+    }
+}
+
+/// <summary>
+/// 保存抽奖请求模型
+/// </summary>
+public class SavePrizeDrawRequest
+{
+    /// <summary>
+    /// 奖品名称
+    /// </summary>
+    public string PrizeName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 中奖者列表
+    /// </summary>
+    public List<GroupMember> Winners { get; set; } = new();
+
+    /// <summary>
+    /// 会话ID（可选）
+    /// </summary>
+    public string? SessionId { get; set; }
 }
 
 /// <summary>
@@ -341,5 +508,47 @@ public class GroupMember
     public string? Gender { get; set; }
     public string? Class { get; set; }
     public string? Major { get; set; }
+}
+
+/// <summary>
+/// 批量抽奖请求模型
+/// </summary>
+public class SaveBatchPrizeDrawRequest
+{
+    /// <summary>
+    /// 奖项列表
+    /// </summary>
+    public List<PrizeItem> Prizes { get; set; } = new();
+
+    /// <summary>
+    /// 性别筛选（可选）
+    /// </summary>
+    public string? Gender { get; set; }
+
+    /// <summary>
+    /// 班级筛选（可选）
+    /// </summary>
+    public string? ClassName { get; set; }
+
+    /// <summary>
+    /// 会话ID（可选）
+    /// </summary>
+    public string? SessionId { get; set; }
+}
+
+/// <summary>
+/// 奖项信息
+/// </summary>
+public class PrizeItem
+{
+    /// <summary>
+    /// 奖品名称
+    /// </summary>
+    public string PrizeName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 中奖人数
+    /// </summary>
+    public int WinnerCount { get; set; }
 }
 

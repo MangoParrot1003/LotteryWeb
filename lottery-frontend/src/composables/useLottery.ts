@@ -362,6 +362,112 @@ export function useLottery() {
     }
   }
 
+  // --- 抽奖功能 ---
+  const prizeWinners = ref<Student[]>([]);
+  const prizeName = ref('');
+  const winnerCount = ref(1);
+  const prizeHistory = ref<any[]>([]);
+
+  /**
+   * 执行抽奖
+   */
+  async function performPrizeDraw() {
+    if (isDrawing.value || !prizeName.value) return;
+
+    try {
+      isDrawing.value = true;
+      error.value = null;
+      prizeWinners.value = [];
+
+      // 依次抽取每个中奖者
+      for (let i = 0; i < winnerCount.value; i++) {
+        // 动画效果
+        const animationDuration = 1000;
+        const interval = 80;
+        const iterations = animationDuration / interval;
+
+        for (let j = 0; j < iterations; j++) {
+          if (filteredStudents.value.length > 0) {
+            const randomIndex = Math.floor(Math.random() * filteredStudents.value.length);
+            const student = filteredStudents.value[randomIndex];
+            if (student) {
+              selectedStudent.value = student;
+            }
+            await new Promise(resolve => setTimeout(resolve, interval));
+          }
+        }
+
+        // 抽取一个学生
+        const result = await lotteryApi.drawStudent(
+          filterGender.value || undefined,
+          filterClass.value || undefined
+        );
+
+        prizeWinners.value.push(result);
+
+        if (i < winnerCount.value - 1) {
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+      }
+
+      // 保存抽奖历史
+      await lotteryApi.savePrizeDraw(prizeName.value, prizeWinners.value);
+
+      selectedStudent.value = null;
+
+      // 重新加载历史记录
+      await loadPrizeHistory();
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : '抽奖失败';
+      console.error('抽奖失败:', e);
+      prizeWinners.value = [];
+    } finally {
+      isDrawing.value = false;
+    }
+  }
+
+  /**
+   * 加载抽奖历史
+   */
+  async function loadPrizeHistory() {
+    try {
+      error.value = null;
+      const history = await lotteryApi.getPrizeHistory();
+      prizeHistory.value = history;
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : '加载抽奖历史失败';
+      console.error('加载抽奖历史失败:', e);
+    }
+  }
+
+  /**
+   * 清空抽奖历史
+   */
+  async function clearPrizeHistory() {
+    try {
+      error.value = null;
+      await lotteryApi.clearPrizeHistory();
+      prizeHistory.value = [];
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : '清空抽奖历史失败';
+      console.error('清空抽奖历史失败:', e);
+    }
+  }
+
+  /**
+   * 删除单条抽奖历史
+   */
+  async function removePrizeHistory(historyId: number) {
+    try {
+      error.value = null;
+      await lotteryApi.deletePrizeHistory(historyId);
+      await loadPrizeHistory();
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : '删除抽奖历史失败';
+      console.error('删除抽奖历史失败:', e);
+    }
+  }
+
 
   return {
     // 状态
@@ -406,7 +512,17 @@ export function useLottery() {
     groupingHistory,
     loadGroupingHistory,
     clearGroupingHistory,
-    deleteGroupingHistoryBatch
+    deleteGroupingHistoryBatch,
+
+    // 抽奖
+    prizeWinners,
+    prizeName,
+    winnerCount,
+    performPrizeDraw,
+    prizeHistory,
+    loadPrizeHistory,
+    clearPrizeHistory,
+    removePrizeHistory
 
   };
 }

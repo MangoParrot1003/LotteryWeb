@@ -78,5 +78,27 @@ public interface IStudentService
     /// 删除指定批次的分组历史
     /// </summary>
     Task DeleteGroupingHistoryByBatchIdAsync(string batchId);
+    
+    // ========== 抽奖历史相关方法 ==========
+    
+    /// <summary>
+    /// 保存抽奖历史记录
+    /// </summary>
+    Task SavePrizeDrawHistoryAsync(string prizeName, IEnumerable<Student> winners, string? sessionId = null, string? batchId = null);
+    
+    /// <summary>
+    /// 获取抽奖历史记录
+    /// </summary>
+    Task<IEnumerable<PrizeDrawHistory>> GetPrizeHistoryAsync(string? sessionId = null, int limit = 10);
+    
+    /// <summary>
+    /// 清空抽奖历史记录
+    /// </summary>
+    Task ClearPrizeHistoryAsync(string? sessionId = null);
+    
+    /// <summary>
+    /// 删除单条抽奖历史记录
+    /// </summary>
+    Task DeletePrizeHistoryAsync(int historyId);
 }
 

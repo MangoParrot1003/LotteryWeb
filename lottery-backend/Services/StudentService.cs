@@ -12,17 +12,20 @@ public class StudentService : IStudentService
     private readonly IStudentRepository _studentRepository;
     private readonly IDrawHistoryRepository _historyRepository;
     private readonly IGroupingHistoryRepository _groupingHistoryRepository;
+    private readonly IPrizeDrawHistoryRepository _prizeHistoryRepository;
     private readonly ILogger<StudentService> _logger;
 
     public StudentService(
         IStudentRepository studentRepository,
         IDrawHistoryRepository historyRepository,
         IGroupingHistoryRepository groupingHistoryRepository,
+        IPrizeDrawHistoryRepository prizeHistoryRepository,
         ILogger<StudentService> logger)
     {
         _studentRepository = studentRepository;
         _historyRepository = historyRepository;
         _groupingHistoryRepository = groupingHistoryRepository;
+        _prizeHistoryRepository = prizeHistoryRepository;
         _logger = logger;
     }
 
@@ -230,6 +233,63 @@ public class StudentService : IStudentService
     {
         await _groupingHistoryRepository.DeleteByBatchIdAsync(batchId);
         _logger.LogInformation("删除分组历史 - 批次: {BatchId}", batchId);
+    }
+
+    // ========== 抽奖历史相关方法 ==========
+
+    /// <summary>
+    /// 保存抽奖历史记录
+    /// </summary>
+    public async Task SavePrizeDrawHistoryAsync(string prizeName, IEnumerable<Student> winners, string? sessionId = null, string? batchId = null)
+    {
+        var winnersList = winners.ToList();
+        var history = new PrizeDrawHistory
+        {
+            PrizeName = prizeName,
+            WinnersList = winnersList,
+            DrawTime = DateTime.Now,
+            SessionId = sessionId,
+            BatchId = batchId
+        };
+
+        await _prizeHistoryRepository.AddAsync(history);
+        _logger.LogInformation("保存抽奖历史 - 奖品: {PrizeName}, 中奖人数: {Count}, 批次: {BatchId}", 
+            prizeName, winnersList.Count, batchId ?? "单独");
+    }
+
+    /// <summary>
+    /// 获取抽奖历史记录
+    /// </summary>
+    public async Task<IEnumerable<PrizeDrawHistory>> GetPrizeHistoryAsync(string? sessionId = null, int limit = 10)
+    {
+        _logger.LogInformation("获取抽奖历史 - 会话: {SessionId}, 限制: {Limit}", sessionId ?? "全部", limit);
+        return await _prizeHistoryRepository.GetAllAsync(sessionId, limit);
+    }
+
+    /// <summary>
+    /// 清空抽奖历史记录
+    /// </summary>
+    public async Task ClearPrizeHistoryAsync(string? sessionId = null)
+    {
+        await _prizeHistoryRepository.ClearAsync(sessionId);
+        
+        if (!string.IsNullOrEmpty(sessionId))
+        {
+            _logger.LogInformation("清空抽奖历史 - 会话: {SessionId}", sessionId);
+        }
+        else
+        {
+            _logger.LogInformation("清空所有抽奖历史");
+        }
+    }
+
+    /// <summary>
+    /// 删除单条抽奖历史记录
+    /// </summary>
+    public async Task DeletePrizeHistoryAsync(int historyId)
+    {
+        await _prizeHistoryRepository.DeleteAsync(historyId);
+        _logger.LogInformation("删除抽奖历史记录 - ID: {Id}", historyId);
     }
 }
 
