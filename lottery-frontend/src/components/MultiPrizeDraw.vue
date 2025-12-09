@@ -248,32 +248,24 @@ defineExpose({
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fef3c7 100%);
-  border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(217, 119, 6, 0.3);
 }
 
 .title {
   text-align: center;
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-size: 2.5rem;
-  font-weight: 800;
+  color: #d97706;
+  font-size: 2rem;
+  font-weight: 700;
   margin-bottom: 2rem;
-  text-shadow: 2px 2px 4px rgba(217, 119, 6, 0.2);
-  filter: drop-shadow(0 2px 4px rgba(217, 119, 6, 0.3));
 }
 
 /* 奖项配置区 */
 .prize-config {
-  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-  border-radius: 20px;
+  background: white;
+  border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   margin-bottom: 2rem;
-  border: 2px solid #fbbf24;
+  border: 1px solid #fde68a;
 }
 
 .prize-list {
@@ -288,23 +280,21 @@ defineExpose({
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background: linear-gradient(135deg, #ffffff 0%, #fef9e7 100%);
+  background: #fefce8;
   border-radius: 12px;
   transition: all 0.3s;
-  border: 2px solid #fde68a;
-  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.1);
+  border: 1px solid #fde68a;
 }
 
 .prize-item:hover {
-  background: linear-gradient(135deg, #fef9e7 0%, #fef3c7 100%);
+  background: #fef3c7;
   border-color: #fbbf24;
-  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .prize-number {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   color: white;
   border-radius: 50%;
@@ -313,8 +303,6 @@ defineExpose({
   justify-content: center;
   font-weight: bold;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  font-size: 1.1rem;
 }
 
 .prize-name-input {
@@ -379,75 +367,37 @@ defineExpose({
   font-size: 1rem;
   font-weight: 600;
   color: #d97706;
-  background: linear-gradient(135deg, #ffffff 0%, #fef9e7 100%);
+  background: white;
   border: 2px dashed #fbbf24;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s;
-  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.1);
 }
 
 .add-prize-btn:hover {
-  background: linear-gradient(135deg, #fef9e7 0%, #fef3c7 100%);
+  background: #fefce8;
   border-color: #f59e0b;
-  color: #b45309;
-  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
-  transform: translateY(-2px);
 }
 
 /* 抽奖按钮 */
 .draw-button {
   display: block;
   margin: 0 auto 2rem;
-  padding: 1.5rem 4rem;
-  font-size: 1.8rem;
-  font-weight: 900;
+  padding: 1.2rem 3rem;
+  font-size: 1.5rem;
+  font-weight: bold;
   color: white;
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   border: none;
-  border-radius: 60px;
+  border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s;
-  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.5), 
-              inset 0 1px 0 rgba(255, 255, 255, 0.3),
-              0 0 0 4px rgba(251, 191, 36, 0.3);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  position: relative;
-  overflow: hidden;
-}
-
-.draw-button::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
-  transform: rotate(45deg);
-  animation: shine 3s infinite;
-}
-
-@keyframes shine {
-  0% {
-    left: -50%;
-  }
-  100% {
-    left: 150%;
-  }
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
 }
 
 .draw-button:hover:not(:disabled) {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 12px 32px rgba(217, 119, 6, 0.7), 
-              inset 0 1px 0 rgba(255, 255, 255, 0.4),
-              0 0 0 6px rgba(251, 191, 36, 0.4),
-              0 0 40px rgba(245, 158, 11, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.5);
 }
 
 .draw-button:disabled {
@@ -457,32 +407,15 @@ defineExpose({
 }
 
 .draw-button.drawing {
-  animation: goldenPulse 1s infinite, rotate 2s linear infinite;
+  animation: pulse 1s infinite;
 }
 
-@keyframes goldenPulse {
+@keyframes pulse {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 8px 24px rgba(217, 119, 6, 0.5), 
-                0 0 0 4px rgba(251, 191, 36, 0.3);
   }
   50% {
-    transform: scale(1.08);
-    box-shadow: 0 12px 32px rgba(217, 119, 6, 0.8), 
-                0 0 0 8px rgba(251, 191, 36, 0.5),
-                0 0 60px rgba(245, 158, 11, 0.5);
-  }
-}
-
-@keyframes rotate {
-  0% {
-    filter: hue-rotate(0deg) brightness(1);
-  }
-  50% {
-    filter: hue-rotate(10deg) brightness(1.2);
-  }
-  100% {
-    filter: hue-rotate(0deg) brightness(1);
+    transform: scale(1.05);
   }
 }
 
@@ -493,14 +426,10 @@ defineExpose({
 
 .results-title {
   text-align: center;
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-size: 2rem;
-  font-weight: 800;
+  color: #d97706;
+  font-size: 1.8rem;
+  font-weight: 700;
   margin-bottom: 1.5rem;
-  filter: drop-shadow(0 2px 4px rgba(217, 119, 6, 0.3));
 }
 
 .results-grid {
@@ -510,31 +439,24 @@ defineExpose({
 }
 
 .result-card {
-  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-  border-radius: 20px;
+  background: white;
+  border-radius: 16px;
   padding: 1.5rem;
-  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.2), 
-              inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.3s;
-  border: 2px solid #fbbf24;
+  border: 1px solid #fde68a;
 }
 
 .result-card.is-drawing {
-  animation: goldenCardGlow 1s ease-in-out infinite;
-  transform: scale(1.03);
+  animation: cardGlow 1s ease-in-out infinite;
 }
 
-@keyframes goldenCardGlow {
+@keyframes cardGlow {
   0%, 100% {
-    box-shadow: 0 8px 24px rgba(217, 119, 6, 0.3), 
-                inset 0 1px 0 rgba(255, 255, 255, 0.8);
-    border-color: #fbbf24;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
   50% {
-    box-shadow: 0 12px 36px rgba(217, 119, 6, 0.6), 
-                0 0 40px rgba(245, 158, 11, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 1);
-    border-color: #f59e0b;
+    box-shadow: 0 8px 20px rgba(217, 119, 6, 0.3);
   }
 }
 
@@ -548,25 +470,18 @@ defineExpose({
 }
 
 .prize-badge {
-  font-size: 1.5rem;
-  font-weight: 900;
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 2px 4px rgba(217, 119, 6, 0.3));
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #d97706;
 }
 
 .winner-count-badge {
-  padding: 0.4rem 1rem;
+  padding: 0.3rem 0.8rem;
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   color: white;
   border-radius: 20px;
   font-size: 0.9rem;
-  font-weight: 700;
-  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.4), 
-              inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  font-weight: 600;
 }
 
 .winners-list {
@@ -580,7 +495,7 @@ defineExpose({
   align-items: center;
   gap: 1rem;
   padding: 0.8rem;
-  background: linear-gradient(135deg, #ffffff 0%, #fef9e7 100%);
+  background: #fefce8;
   border-radius: 12px;
   transition: all 0.3s;
   border: 1px solid #fde68a;
@@ -589,31 +504,23 @@ defineExpose({
 .winner-item.is-latest {
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   color: white;
-  transform: scale(1.08);
-  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.6), 
-              0 0 40px rgba(245, 158, 11, 0.4),
-              inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  animation: goldenWinnerGlow 1s ease-in-out infinite;
-  border: 2px solid #fbbf24;
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(217, 119, 6, 0.5);
+  animation: winnerGlow 1s ease-in-out infinite;
 }
 
-@keyframes goldenWinnerGlow {
+@keyframes winnerGlow {
   0%, 100% {
-    box-shadow: 0 8px 24px rgba(217, 119, 6, 0.6), 
-                0 0 40px rgba(245, 158, 11, 0.4);
+    box-shadow: 0 4px 16px rgba(217, 119, 6, 0.5);
   }
   50% {
-    box-shadow: 0 12px 32px rgba(217, 119, 6, 0.9), 
-                0 0 60px rgba(245, 158, 11, 0.6),
-                0 0 80px rgba(251, 191, 36, 0.3);
+    box-shadow: 0 6px 24px rgba(217, 119, 6, 0.7);
   }
 }
 
 .winner-item.is-latest .winner-avatar {
-  background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%);
+  background: white;
   color: #d97706;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5), 
-              inset 0 2px 4px rgba(217, 119, 6, 0.2);
 }
 
 .winner-item.is-latest .winner-details {
@@ -632,9 +539,6 @@ defineExpose({
   font-size: 1.2rem;
   font-weight: bold;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.4), 
-              inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .winner-info {

@@ -36,7 +36,7 @@
         
         <div class="winners-list">
           <div 
-            v-for="(winner, index) in item.winners"
+            v-for="(winner, index) in parseWinners(item.winners)"
             :key="index"
             class="winner-chip"
           >
@@ -81,6 +81,29 @@ defineEmits<{
   'clear': [];
   'remove': [id: number];
 }>();
+
+// 解析中奖者数据（可能是字符串或数组）
+function parseWinners(winners: any): Winner[] {
+  if (!winners) return [];
+  
+  // 如果已经是数组，直接返回
+  if (Array.isArray(winners)) {
+    return winners;
+  }
+  
+  // 如果是字符串，尝试解析 JSON
+  if (typeof winners === 'string') {
+    try {
+      const parsed = JSON.parse(winners);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      console.error('解析中奖者数据失败:', e);
+      return [];
+    }
+  }
+  
+  return [];
+}
 
 function formatTime(timeStr: string): string {
   const date = new Date(timeStr);
