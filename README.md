@@ -99,7 +99,7 @@
    - 打开宝塔终端：https://8.148.202.248:19030/xterm
    - 查看占用端口的进程：`sudo lsof -t -i:5000`
    - 杀掉旧进程：`kill -9 进程ID`（例如：`kill -9 9630`）
-   - 进入部署目录：`cd /home/ying_ying/web_test/release/`
+   - 进入部署目录：`cd /home/ying_ying/web_test/release/  输入ls -l`
    - 启动后端：`./lottery-backend`
 2. **启动前端**
 

@@ -135,7 +135,7 @@ StyleCopReport.xml
 # ===================================
 
 # 如果不想提交数据库，取消下面的注释
-# *.db
+*.db
 # *.sqlite
 # *.sqlite3
 
@@ -199,6 +199,7 @@ backup/
 # 发布文件夹
 deploy-linux/
 publish/
+publish-small/
 release/
 
 # 截图和图片文件夹（如果不需要提交）

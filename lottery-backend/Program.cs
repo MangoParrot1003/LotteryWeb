@@ -55,13 +55,20 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// 确保数据库和表已创建
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<StudentContext>();
+    context.Database.EnsureCreated();
+}
+
 // 配置 HTTP 请求管道
 // 启用 Swagger（开发和生产环境都可用）
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "学生抽签系统 API v1");
-    options.RoutePrefix = string.Empty; // 设置 Swagger UI 为根路径
+    options.RoutePrefix = "swagger"; // 设置 Swagger UI 为 /swagger 路径
 });
 
 app.UseCors("AllowVue");

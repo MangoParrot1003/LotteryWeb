@@ -45,7 +45,9 @@ echo.
 :: 复制数据库
 echo 📋 复制数据库文件...
 copy students.db "%BACKEND_DIR%\students.db" >nul
-echo ✅ 数据库复制完成
+echo 📋 复制生产环境配置...
+copy lottery-backend\appsettings.Production.json "%BACKEND_DIR%\appsettings.Production.json" >nul
+echo ✅ 数据库和配置文件复制完成
 echo.
 
 :: 打包前端
@@ -260,6 +262,7 @@ echo 📦 包含内容:
 echo    ├── backend\
 echo    │   ├── lottery-backend      (可执行文件)
 echo    │   ├── students.db          (数据库)
+echo    │   ├── appsettings.Production.json (生产环境配置)
 echo    │   └── start.sh             (启动脚本)
 echo    ├── frontend\
 echo    │   └── (静态文件)
