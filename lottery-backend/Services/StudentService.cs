@@ -53,7 +53,15 @@ public class StudentService : IStudentService
     public async Task<Student?> DrawStudentAsync(string? gender = null, string? className = null)
     {
         _logger.LogInformation("抽签 - 性别: {Gender}, 班级: {Class}", gender ?? "全部", className ?? "全部");
-        return await _studentRepository.GetRandomStudentAsync(gender, className);
+        var student = await _studentRepository.GetRandomStudentAsync(gender, className);
+        
+        if (student != null)
+        {
+            _logger.LogInformation("抽中学生: ID={Id}, Name='{Name}', StudentId='{StudentId}'", 
+                student.Id, student.Name, student.StudentId);
+        }
+        
+        return student;
     }
 
     /// <summary>

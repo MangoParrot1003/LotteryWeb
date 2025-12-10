@@ -27,18 +27,14 @@ echo 📦 第 1 步: 打包后端
 echo ========================================
 echo.
 
-cd lottery-backend
 echo 正在编译后端...
-dotnet publish -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -o "..\%BACKEND_DIR%"
+dotnet publish lottery-backend -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -o "%BACKEND_DIR%"
 
 if %ERRORLEVEL% NEQ 0 (
     echo ❌ 后端打包失败！
-    cd ..
     pause
     exit /b 1
 )
-
-cd ..
 echo ✅ 后端打包完成
 echo.
 
@@ -46,7 +42,9 @@ echo.
 echo 📋 复制数据库文件...
 copy students.db "%BACKEND_DIR%\students.db" >nul
 echo 📋 复制生产环境配置...
-copy lottery-backend\appsettings.Production.json "%BACKEND_DIR%\appsettings.Production.json" >nul
+if exist lottery-backend\appsettings.Production.json (
+    copy lottery-backend\appsettings.Production.json "%BACKEND_DIR%\appsettings.Production.json" >nul
+)
 echo ✅ 数据库和配置文件复制完成
 echo.
 
@@ -56,8 +54,8 @@ echo 📦 第 2 步: 打包前端
 echo ========================================
 echo.
 
-cd lottery-frontend
 echo 正在构建前端...
+cd lottery-frontend
 call pnpm run build
 
 if %ERRORLEVEL% NEQ 0 (
@@ -69,9 +67,8 @@ if %ERRORLEVEL% NEQ 0 (
 
 :: 复制前端构建文件
 echo 复制前端文件...
-xcopy /E /I /Y dist "..\%FRONTEND_DIR%" >nul
-
 cd ..
+xcopy /E /I /Y lottery-frontend\dist "%FRONTEND_DIR%" >nul
 echo ✅ 前端打包完成
 echo.
 

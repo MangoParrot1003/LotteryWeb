@@ -42,7 +42,12 @@ public class StudentRepository : Repository<Student>, IStudentRepository
 
         var random = new Random();
         var index = random.Next(studentList.Count);
-        return studentList[index];
+        var selectedStudent = studentList[index];
+        
+        // 调试日志：确保返回的学生数据正确
+        Console.WriteLine($"[DEBUG] 抽中学生: ID={selectedStudent.Id}, Name='{selectedStudent.Name}', StudentId='{selectedStudent.StudentId}'");
+        
+        return selectedStudent;
     }
 
     public async Task<IEnumerable<Student>> GetRandomStudentsAsync(int count, string? gender = null, string? className = null)

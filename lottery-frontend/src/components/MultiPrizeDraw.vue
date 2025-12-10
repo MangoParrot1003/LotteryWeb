@@ -73,7 +73,7 @@
               class="winner-item"
               :class="{ 'is-latest': isLatestWinner(index, wIndex) }"
             >
-              <div class="winner-avatar">{{ winner.name.charAt(0) }}</div>
+              <div class="winner-avatar" :title="`姓名: ${winner.name}`">{{ winner.name ? winner.name.charAt(0) : '?' }}</div>
               <div class="winner-info">
                 <div class="winner-name">{{ winner.name }}</div>
                 <div class="winner-details">{{ winner.studentId }} | {{ winner.class }}</div>

@@ -36,7 +36,7 @@
         
         <div class="winners-list">
           <div 
-            v-for="(winner, index) in parseWinners(item.winners)"
+            v-for="(winner, index) in getWinners(item)"
             :key="index"
             class="winner-chip"
           >
@@ -81,6 +81,17 @@ defineEmits<{
   'clear': [];
   'remove': [id: number];
 }>();
+
+// 获取中奖者数据（优先使用 winnersList，其次使用 winners）
+function getWinners(item: any): Winner[] {
+  // 优先使用 winnersList（后端已解析的数据）
+  if (item.winnersList && Array.isArray(item.winnersList)) {
+    return item.winnersList;
+  }
+  
+  // 其次使用 winners（可能是字符串或数组）
+  return parseWinners(item.winners);
+}
 
 // 解析中奖者数据（可能是字符串或数组）
 function parseWinners(winners: any): Winner[] {

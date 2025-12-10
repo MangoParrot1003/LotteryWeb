@@ -54,7 +54,7 @@
             :class="{ 'is-latest': index === winners.length - 1 && isDrawing }"
           >
             <div class="winner-number">{{ index + 1 }}</div>
-            <div class="winner-avatar">{{ winner.name.charAt(0) }}</div>
+            <div class="winner-avatar" :title="`姓名: ${winner.name}`">{{ winner.name ? winner.name.charAt(0) : '?' }}</div>
             <div class="winner-name">{{ winner.name }}</div>
             <div class="winner-id">{{ winner.studentId }}</div>
             <div class="winner-class">{{ winner.class }}</div>

@@ -6,7 +6,12 @@ using LotteryBackend.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // 添加服务到容器
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // 使用 camelCase 命名约定（与前端 JavaScript 一致）
+        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+    });
 
 // 配置数据库上下文
 builder.Services.AddDbContext<StudentContext>(options =>

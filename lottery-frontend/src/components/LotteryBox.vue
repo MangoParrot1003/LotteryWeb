@@ -33,8 +33,8 @@
     <!-- 单个结果显示 -->
     <transition name="fade">
       <div v-if="student" class="result-card" :class="{ drawing: isDrawing }">
-        <div class="student-avatar">
-          {{ student.name.charAt(0) }}
+        <div class="student-avatar" :title="`姓名: ${student.name}`">
+          {{ student.name ? student.name.charAt(0) : '?' }}
         </div>
         
         <h2 class="student-name">{{ student.name }}</h2>
@@ -75,7 +75,7 @@
             :class="{ 'is-latest': index === students.length - 1 && isDrawing }"
           >
             <div class="batch-number">{{ index + 1 }}</div>
-            <div class="batch-avatar">{{ s.name.charAt(0) }}</div>
+            <div class="batch-avatar" :title="`姓名: ${s.name}`">{{ s.name ? s.name.charAt(0) : '?' }}</div>
             <div class="batch-name">{{ s.name }}</div>
             <div class="batch-id">{{ s.studentId }}</div>
             <div class="batch-class">{{ s.class }}</div>

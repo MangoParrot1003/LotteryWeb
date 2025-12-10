@@ -203,7 +203,7 @@ const {
 } = useLottery();
 
 // 模式切换
-const currentMode = ref<'lottery' | 'grouping' | 'prize'>('lottery');
+const currentMode = ref<'lottery' | 'grouping' | 'prize' | 'multiPrize'>('lottery');
 
 // 组件挂载时加载数据
 onMounted(async () => {
