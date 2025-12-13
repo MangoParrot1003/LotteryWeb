@@ -11,6 +11,7 @@ namespace LotteryBackend.Data
         public DbSet<DrawHistory> DrawHistories { get; set; }
         public DbSet<GroupingHistory> GroupingHistories { get; set; }
         public DbSet<PrizeDrawHistory> PrizeDrawHistories { get; set; }
+        public DbSet<MembershipRecord> MembershipRecords { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -57,6 +58,18 @@ namespace LotteryBackend.Data
             modelBuilder.Entity<PrizeDrawHistory>().Property(h => h.DrawTime).HasColumnName("draw_time");
             modelBuilder.Entity<PrizeDrawHistory>().Property(h => h.SessionId).HasColumnName("session_id");
             modelBuilder.Entity<PrizeDrawHistory>().Property(h => h.BatchId).HasColumnName("batch_id");
+
+            // 会员记录表配置
+            modelBuilder.Entity<MembershipRecord>().ToTable("membership_records");
+            modelBuilder.Entity<MembershipRecord>().Property(m => m.Id).HasColumnName("id");
+            modelBuilder.Entity<MembershipRecord>().Property(m => m.UserId).HasColumnName("user_id");
+            modelBuilder.Entity<MembershipRecord>().Property(m => m.MembershipType).HasColumnName("membership_type");
+            modelBuilder.Entity<MembershipRecord>().Property(m => m.OrderNo).HasColumnName("order_no");
+            modelBuilder.Entity<MembershipRecord>().Property(m => m.Amount).HasColumnName("amount");
+            modelBuilder.Entity<MembershipRecord>().Property(m => m.RemainingExports).HasColumnName("remaining_exports");
+            modelBuilder.Entity<MembershipRecord>().Property(m => m.PurchaseTime).HasColumnName("purchase_time");
+            modelBuilder.Entity<MembershipRecord>().Property(m => m.ExpiryTime).HasColumnName("expiry_time");
+            modelBuilder.Entity<MembershipRecord>().Property(m => m.Status).HasColumnName("status");
         }
     }
 }

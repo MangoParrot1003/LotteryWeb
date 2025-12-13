@@ -22,6 +22,7 @@ builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IDrawHistoryRepository, DrawHistoryRepository>();
 builder.Services.AddScoped<IGroupingHistoryRepository, GroupingHistoryRepository>();
 builder.Services.AddScoped<IPrizeDrawHistoryRepository, PrizeDrawHistoryRepository>();
+builder.Services.AddScoped<IMembershipRepository, MembershipRepository>();
 
 // 注册服务
 builder.Services.AddScoped<IStudentService, StudentService>();

@@ -1,5 +1,102 @@
 # 更新日志
 
+## [v1.1.0] - 2025-12-11
+
+### 🎉 新增功能
+
+#### 付费抽奖与会员系统
+- 💎 **会员套餐**
+  - 单次导出：¥1（1次数据导出权限）
+  - 包月会员：¥9.9/月（无限次导出，30天有效期）
+  - 移除包年套餐，采用发展中国家友好定价
+
+- 📊 **数据导出功能**
+  - 支持导出抽签历史（CSV格式）
+  - 支持导出抽奖记录（CSV格式）
+  - 支持导出学生名单（CSV格式）
+  - 自动权限验证和次数扣减
+  - 单次导出自动计数，包月会员无限制
+
+- 🔐 **会员管理**
+  - 支付成功自动创建会员记录
+  - 会员状态实时验证（localStorage + API）
+  - 会员到期时间自动计算
+  - 导出次数自动管理
+
+### 🔧 后端实现
+
+#### 数据模型
+- 📦 **MembershipRecord** - 会员记录模型
+  - 支持单次和包月两种类型
+  - 自动有效性检查
+  - 剩余次数管理
+
+#### API接口
+- 🔌 **POST /api/lottery/membership** - 创建会员
+- 🔌 **GET /api/lottery/membership/check/{userId}** - 查询会员状态
+- 🔌 **POST /api/lottery/export/excel** - 导出数据（CSV格式）
+
+#### 数据库
+- 💾 **membership_records** - 新增会员记录表
+  - 包含会员类型、订单号、金额、剩余次数等字段
+  - 索引优化：user_id、order_no、status
+
+#### 仓储层
+- 📁 **IMembershipRepository** - 会员仓储接口
+- 📁 **MembershipRepository** - 会员仓储实现
+  - 创建会员、查询状态、扣减次数等方法
+
+### 🎨 前端实现
+
+#### 新增组件
+- 💳 **ExportPanel.vue** - 数据导出面板
+  - 权限检查和状态展示
+  - 三种导出选项
+  - 自动下载CSV文件
+  - 剩余次数/到期时间显示
+
+#### 功能增强
+- 💰 **PaidPrizeDraw.vue** - 付费抽奖页面优化
+  - 调整价格为¥1和¥9.9
+  - 集成导出面板组件
+  - 优化价格卡片排版
+
+- 💳 **PaymentModal.vue** - 支付流程增强
+  - 支付成功自动调用会员创建API
+  - 会员信息保存到localStorage
+  - 异常容错处理
+
+### 📦 部署更新
+- ✅ 更新 `publish/` 后端部署文件（Linux x64版本）
+- ✅ 更新 `dist/` 前端构建文件
+- ✅ 包含会员数据库迁移脚本
+- ✅ 包含最新的students.db数据库
+
+### 🎯 功能验证
+- ✅ 支付流程完整可用
+- ✅ 会员创建和查询正常
+- ✅ 数据导出功能正常
+- ✅ 权限验证准确
+- ✅ 单次/包月会员逻辑正确
+
+### 📝 文件清单
+
+**新增文件：**
+- `lottery-backend/Models/MembershipRecord.cs`
+- `lottery-backend/Repositories/IMembershipRepository.cs`
+- `lottery-backend/Repositories/MembershipRepository.cs`
+- `lottery-backend/Data/create_membership_table.sql`
+- `lottery-frontend/src/components/ExportPanel.vue`
+
+**修改文件：**
+- `lottery-backend/Controllers/LotteryController.cs` - 新增会员和导出API
+- `lottery-backend/Data/StudentContext.cs` - 添加会员表配置
+- `lottery-backend/Program.cs` - 注册会员服务
+- `lottery-frontend/src/components/PaidPrizeDraw.vue` - 价格调整和导出面板
+- `lottery-frontend/src/components/PaymentModal.vue` - 支付成功创建会员
+
+---
+
 ## [v1.0.4] - 2025-12-10
 
 ### 🐛 问题修复

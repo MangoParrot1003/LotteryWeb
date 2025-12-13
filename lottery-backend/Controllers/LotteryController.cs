@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using LotteryBackend.Models;
 using LotteryBackend.Services;
+using LotteryBackend.Repositories;
 
 namespace LotteryBackend.Controllers;
 
@@ -14,11 +15,16 @@ public class LotteryController : ControllerBase
 {
     private readonly IStudentService _studentService;
     private readonly ILogger<LotteryController> _logger;
+    private readonly IMembershipRepository _membershipRepository;
 
-    public LotteryController(IStudentService studentService, ILogger<LotteryController> logger)
+    public LotteryController(
+        IStudentService studentService, 
+        ILogger<LotteryController> logger,
+        IMembershipRepository membershipRepository)
     {
         _studentService = studentService;
         _logger = logger;
+        _membershipRepository = membershipRepository;
     }
 
     /// <summary>
@@ -453,6 +459,148 @@ public class LotteryController : ControllerBase
 
         return Ok(new { message = "批量抽奖完成", batchId });
     }
+
+    // ========== 会员管理相关 API ==========
+
+    /// <summary>
+    /// 创建会员记录（模拟支付成功）
+    /// </summary>
+    [HttpPost("membership")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> CreateMembership([FromBody] CreateMembershipRequest request)
+    {
+        _logger.LogInformation("API调用: 创建会员 - 用户={UserId}, 类型={Type}", 
+            request.UserId, request.MembershipType);
+
+        var membership = new MembershipRecord
+        {
+            UserId = request.UserId,
+            MembershipType = request.MembershipType,
+            OrderNo = request.OrderNo,
+            Amount = request.Amount,
+            RemainingExports = request.MembershipType == "single" ? 1 : -1,
+            PurchaseTime = DateTime.Now,
+            ExpiryTime = request.MembershipType == "monthly" ? DateTime.Now.AddDays(30) : null,
+            Status = "active"
+        };
+
+        await _membershipRepository.CreateMembershipAsync(membership);
+        return Ok(new { message = "会员创建成功", membership });
+    }
+
+    /// <summary>
+    /// 查询用户会员状态
+    /// </summary>
+    [HttpGet("membership/check/{userId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> CheckMembership(string userId)
+    {
+        _logger.LogInformation("API调用: 查询会员状态 - 用户={UserId}", userId);
+
+        var membership = await _membershipRepository.GetActiveMembershipByUserIdAsync(userId);
+        
+        if (membership == null || !membership.IsValid)
+        {
+            return Ok(new { 
+                hasPermission = false, 
+                message = "未找到有效会员" 
+            });
+        }
+
+        return Ok(new { 
+            hasPermission = true, 
+            membership = new
+            {
+                type = membership.MembershipType,
+                remainingExports = membership.RemainingExports,
+                expiryTime = membership.ExpiryTime
+            }
+        });
+    }
+
+    /// <summary>
+    /// 导出Excel数据
+    /// </summary>
+    [HttpPost("export/excel")]
+    [Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")]
+    public async Task<IActionResult> ExportToExcel([FromBody] ExportRequest request)
+    {
+        _logger.LogInformation("API调用: 导出Excel - 用户={UserId}, 类型={Type}", 
+            request.UserId, request.ExportType);
+
+        // 检查会员权限
+        var membership = await _membershipRepository.GetActiveMembershipByUserIdAsync(request.UserId);
+        if (membership == null || !membership.IsValid)
+        {
+            return Unauthorized(new { message = "需要购买会员才能导出数据" });
+        }
+
+        // 扣除导出次数
+        if (membership.MembershipType == "single")
+        {
+            await _membershipRepository.DecrementExportCountAsync(membership.Id);
+        }
+
+        // 根据导出类型获取数据
+        var exportData = await GetExportDataAsync(request.ExportType);
+        
+        // 生成Excel文件（简化实现，实际应使用EPPlus或NPOI库）
+        var csvContent = GenerateCsvContent(exportData, request.ExportType);
+        var bytes = System.Text.Encoding.UTF8.GetBytes(csvContent);
+
+        return File(bytes, "text/csv", $"{request.ExportType}_{DateTime.Now:yyyyMMddHHmmss}.csv");
+    }
+
+    private async Task<object> GetExportDataAsync(string exportType)
+    {
+        return exportType switch
+        {
+            "draw_history" => await _studentService.GetDrawHistoryAsync(null, 1000),
+            "prize_history" => await _studentService.GetPrizeHistoryAsync(null, 1000),
+            "students" => await _studentService.GetAllStudentsAsync(),
+            _ => await _studentService.GetDrawHistoryAsync(null, 1000)
+        };
+    }
+
+    private string GenerateCsvContent(object data, string exportType)
+    {
+        var sb = new System.Text.StringBuilder();
+        
+        switch (exportType)
+        {
+            case "draw_history":
+                var drawHistory = (IEnumerable<DrawHistory>)data;
+                sb.AppendLine("序号,学号,姓名,班级,性别,抽取时间");
+                int index = 1;
+                foreach (var item in drawHistory)
+                {
+                    sb.AppendLine($"{index++},{item.StudentNumber},{item.StudentName},{item.Class},{item.Gender},{item.DrawTime:yyyy-MM-dd HH:mm:ss}");
+                }
+                break;
+                
+            case "prize_history":
+                var prizeHistory = (IEnumerable<PrizeDrawHistory>)data;
+                sb.AppendLine("序号,奖品名称,中奖人数,抽奖时间,中奖者");
+                index = 1;
+                foreach (var item in prizeHistory)
+                {
+                    var winners = string.Join(";", item.WinnersList.Select(w => w.Name));
+                    sb.AppendLine($"{index++},{item.PrizeName},{item.WinnerCount},{item.DrawTime:yyyy-MM-dd HH:mm:ss},{winners}");
+                }
+                break;
+                
+            case "students":
+                var students = (IEnumerable<Student>)data;
+                sb.AppendLine("学号,姓名,性别,班级,专业");
+                foreach (var s in students)
+                {
+                    sb.AppendLine($"{s.StudentId},{s.Name},{s.Gender},{s.Class},{s.Major}");
+                }
+                break;
+        }
+        
+        return sb.ToString();
+    }
 }
 
 /// <summary>
@@ -550,5 +698,25 @@ public class PrizeItem
     /// 中奖人数
     /// </summary>
     public int WinnerCount { get; set; }
+}
+
+/// <summary>
+/// 创建会员请求
+/// </summary>
+public class CreateMembershipRequest
+{
+    public string UserId { get; set; } = string.Empty;
+    public string MembershipType { get; set; } = string.Empty;
+    public string OrderNo { get; set; } = string.Empty;
+    public decimal Amount { get; set; }
+}
+
+/// <summary>
+/// 导出请求
+/// </summary>
+public class ExportRequest
+{
+    public string UserId { get; set; } = string.Empty;
+    public string ExportType { get; set; } = "draw_history";
 }
 

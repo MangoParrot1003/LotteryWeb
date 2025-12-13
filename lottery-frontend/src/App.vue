@@ -59,6 +59,13 @@
           >
             🏆 多奖项抽奖
           </button>
+          <button 
+            class="tab-btn premium" 
+            :class="{ active: currentMode === 'paidPrize' }"
+            @click="currentMode = 'paidPrize'"
+          >
+            💎 付费抽奖
+          </button>
         </div>
 
         <div class="content-body">
@@ -99,6 +106,10 @@
             v-else-if="currentMode === 'multiPrize'"
             :filter-gender="filterGender"
             :filter-class="filterClass"
+          />
+
+          <PaidPrizeDraw
+            v-else-if="currentMode === 'paidPrize'"
           />
         </div>
       </section>
@@ -157,6 +168,7 @@ import GroupingHistoryPanel from './components/GroupingHistoryPanel.vue';
 import PrizeDrawBox from './components/PrizeDrawBox.vue';
 import PrizeHistoryPanel from './components/PrizeHistoryPanel.vue';
 import MultiPrizeDraw from './components/MultiPrizeDraw.vue';
+import PaidPrizeDraw from './components/PaidPrizeDraw.vue';
 
 // 使用抽签功能
 const {
@@ -203,7 +215,7 @@ const {
 } = useLottery();
 
 // 模式切换
-const currentMode = ref<'lottery' | 'grouping' | 'prize' | 'multiPrize'>('lottery');
+const currentMode = ref<'lottery' | 'grouping' | 'prize' | 'multiPrize' | 'paidPrize'>('lottery');
 
 // 组件挂载时加载数据
 onMounted(async () => {
@@ -335,6 +347,22 @@ onMounted(async () => {
   border-bottom-color: #667eea;
   background: white;
   font-weight: bold;
+}
+
+.tab-btn.premium {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+.tab-btn.premium:hover {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.15) 100%);
+  color: #d97706;
+}
+
+.tab-btn.premium.active {
+  border-bottom-color: #f59e0b;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
 }
 
 .content-body {
